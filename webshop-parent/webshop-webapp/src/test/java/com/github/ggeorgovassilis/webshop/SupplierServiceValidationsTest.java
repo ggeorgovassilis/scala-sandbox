@@ -3,13 +3,9 @@ package com.github.ggeorgovassilis.webshop;
 import javax.validation.ValidationException;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.Assert.*;
 
 import com.github.ggeorgovassilis.webshop.model.Commodity;
 import com.github.ggeorgovassilis.webshop.model.Supplier;
-import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 public class SupplierServiceValidationsTest extends BaseTest {
 

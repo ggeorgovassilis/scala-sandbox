@@ -134,10 +134,39 @@ public class SupplierServicePersistenceTest extends BaseTest {
 		c2 = supplierService.persist(c2);
 		c3 = supplierService.persist(c3);
 		
-		List<Commodity> commodities = supplierService.getAvailableCommodities();
+		List<Commodity> commodities = supplierService.getAllCommodities();
 		assertEquals(3, commodities.size());
 		assertTrue(commodities.contains(c1));
 		assertTrue(commodities.contains(c2));
 		assertTrue(commodities.contains(c3));
+	}
+	
+	/**
+	 * Test persistence of custom attributes. First create a commodity, add an attribute,
+	 * perist and check that the attribute is there.
+	 * Then add another attribute, update the original attribute, persist and check again.
+	 */
+	@Test
+	public void testCustomAttributesPersistence() {
+		Supplier supplier = makeSupplier("Supplier 1", "Test Supplier");
+		supplier = supplierService.persist(supplier);
+		
+		Commodity c1 = makeCommodity("commodity 1",
+				"description of commodity 1", "kgr", 1, supplier);
+		
+		c1.getCustomAttributes().put("date", "01-02-2013");
+		c1 = supplierService.persist(c1);
+		c1 = supplierService.findCommodity(c1.getName());
+		assertEquals(1, c1.getCustomAttributes().size());
+		assertEquals("01-02-2013", c1.getCustomAttributes().get("date"));
+		
+		c1.getCustomAttributes().put("available", "false");
+		c1.getCustomAttributes().put("date", "02-02-2013");
+
+		c1 = supplierService.persist(c1);
+		c1 = supplierService.findCommodity(c1.getName());
+		assertEquals(2, c1.getCustomAttributes().size());
+		assertEquals("02-02-2013", c1.getCustomAttributes().get("date"));
+		assertEquals("false", c1.getCustomAttributes().get("available"));
 	}
 }
