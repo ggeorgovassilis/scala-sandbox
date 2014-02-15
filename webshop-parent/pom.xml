@@ -15,5 +15,6 @@
 
   <modules>
   	<module>webshop-webapp</module>
+  	<module>webshop-supplier-webservice</module>
   </modules>
 </project>
