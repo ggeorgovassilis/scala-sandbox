@@ -6,42 +6,47 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * Models a commodity (a product for sale)
+ * 
  * @author george georgovassilis
- *
+ * 
  */
 @Entity
 public class Commodity {
 
 	@Id
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
-	@Size(min=1, max=30)
+	@Size(min = 1, max = 30)
 	protected String name;
 
-	@Column(nullable=false)
+	@Version
+	protected Long version;
+
+	@Column(nullable = false)
 	@NotNull
-	@Size(min=1, max=255)
+	@Size(min = 1, max = 255)
 	protected String description;
 
-	@Column(nullable=false)
-	@Size(min=1, max=30)
+	@Column(nullable = false)
+	@Size(min = 1, max = 30)
 	protected String unitName;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
-	@Min(value=0)
+	@Min(value = 0)
 	protected int pricePerUnit;
 
 	@ManyToOne
 	@NotNull
 	protected Supplier supplier;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -81,6 +86,13 @@ public class Commodity {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-	
-	
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
 }
