@@ -2,7 +2,9 @@ package com.github.ggeorgovassilis.webshop.supplierwebservice;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
@@ -13,25 +15,36 @@ import static org.junit.Assert.*;
  * @author george georgovassilis
  *
  */
-public class ProductionRulesTest {
+public class ProductionRulesTest extends BaseTest{
 
+	
 	protected final double error = 0.01;
+
+	@Autowired
+	protected HerdDao herdDao;
+	@Autowired
+	protected Production production;
+
+	protected Herd herd;
 	protected Animal betty1;
 	protected Animal betty2;
 	protected Animal betty3;
-	protected Herd herd;
-	protected Production production;
+	
 	
 	@Before
 	public void setup() {
-		betty1 = new Animal("Betty-1", 400, 0);
-		betty2 = new Animal("Betty-2", 800, 0);
-		betty3 = new Animal("Betty-3", 950, 0);
-		herd = new Herd();
-		herd.getHerd().add(betty1);
-		herd.getHerd().add(betty2);
-		herd.getHerd().add(betty3);
-		production = new Production();
+		herd = herdDao.find("classpath:herd.xml");
+		betty1 = herd.getHerd().get(0);
+		betty2 = herd.getHerd().get(1);
+		betty3 = herd.getHerd().get(2);
+		//		betty1 = new Animal("Betty-1", 400, 0);
+//		betty2 = new Animal("Betty-2", 800, 0);
+//		betty3 = new Animal("Betty-3", 950, 0);
+//		herd = new Herd();
+//		herd.getHerd().add(betty1);
+//		herd.getHerd().add(betty2);
+//		herd.getHerd().add(betty3);
+//		production = new Production();
 	}
 	
 	/**

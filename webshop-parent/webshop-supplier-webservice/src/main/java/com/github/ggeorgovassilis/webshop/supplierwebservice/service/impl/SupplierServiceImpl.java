@@ -1,7 +1,7 @@
 package com.github.ggeorgovassilis.webshop.supplierwebservice.service.impl;
 
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Stock;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.service.SupplierService;
 
 public class SupplierServiceImpl implements SupplierService{
@@ -18,7 +18,7 @@ public class SupplierServiceImpl implements SupplierService{
 	}
 	
 	@Override
-	public Stock getStock(int daysFromNow) {
+	public StockDTO getStock(int daysFromNow) {
 		// TODO Auto-generated method stub
 		return null;
 	}

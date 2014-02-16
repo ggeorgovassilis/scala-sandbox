@@ -1,11 +1,9 @@
 package com.github.ggeorgovassilis.webshop;
 
-import java.util.List;
 
 import javax.validation.ValidationException;
 
 import org.junit.Test;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import static org.junit.Assert.*;
 

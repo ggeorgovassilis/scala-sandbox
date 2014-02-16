@@ -1,18 +1,45 @@
 package com.github.ggeorgovassilis.webshop.supplierwebservice.model;
 
-import javax.persistence.Id;
+import org.springframework.stereotype.Component;
 
+/**
+ * Models herd production
+ * @author george georgovassilis
+ *
+ */
+@Component
 public class Production {
 
+	/**
+	 * Calendar days in an animal year
+	 */
 	protected final int daysPerAnimalYear = 100;
+	
+	/**
+	 * Animals can be shorn if at least this old
+	 */
 	protected final int minimumAgeForShearingInDays = 1*daysPerAnimalYear;
+
+	/**
+	 * An animal is removed from the heard once it is so old
+	 */
 	protected final int maximumAnimalAgeInDays = 10*daysPerAnimalYear;
 	
-	protected double years(int days) {
+	/**
+	 * Convert days to animal years
+	 * @param days
+	 * @return
+	 */
+	public double years(int days) {
 		return (double)days/(double)daysPerAnimalYear;
 	}
 
-	protected int days(double years) {
+	/**
+	 * Convert animal years to days. Rounding behavior is unspecified.
+	 * @param years
+	 * @return
+	 */
+	public int days(double years) {
 		return (int)(years*(double)daysPerAnimalYear);
 	}
 
@@ -73,6 +100,12 @@ public class Production {
 		return 0.5*(outputToday+outputOnLastDay)*(double)(daysOfMilking);
 	}
 
+	/**
+	 * Determine whether an animal can be shorn on a specified day
+	 * @param animal
+	 * @param day
+	 * @return
+	 */
 	public boolean canShearOn(Animal animal, int day) {
 		int ageAtTargetDay = animal.age + day;
 		// too young or too old?
