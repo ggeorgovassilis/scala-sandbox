@@ -2,15 +2,27 @@ package com.github.ggeorgovassilis.webshop.supplierwebservice.model;
 
 import java.io.Serializable;
 
+/**
+ * Models an animal. All ages/times are in days.
+ * @author george
+ *
+ */
 public class Animal implements Serializable {
 
 	public Animal() {
 	}
 
-	public Animal(String name, double age, double ageLastShaved) {
+	public Animal(String name, int age, int ageLastShaved) {
 		setName(name);
 		setAge(age);
 		setAgeLastShaved(ageLastShaved);
+	}
+	
+	/**
+	 * Make a (deep) copy of this object
+	 */
+	public Animal clone() {
+		return new Animal(name, age, ageLastShaved);
 	}
 	/**
 	 * Animal name
@@ -18,14 +30,14 @@ public class Animal implements Serializable {
 	protected String name;
 	
 	/**
-	 * Age of animal in species years (not solar years)
+	 * Age of animal in days
 	 */
-	protected double age;
+	protected int age;
 	
 	/**
-	 * Age at which the animal was last shaved (see {@link #age} about scales).
+	 * Age at which the animal was last shaved
 	 */
-	protected double ageLastShaved;
+	protected int ageLastShaved;
 
 	public String getName() {
 		return name;
@@ -35,20 +47,21 @@ public class Animal implements Serializable {
 		this.name = name;
 	}
 
-	public double getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(double age) {
-		this.age = age;
+	public void setAge(int ageInDays) {
+		this.age = ageInDays;
 	}
 
-	public double getAgeLastShaved() {
+	public int getAgeLastShaved() {
 		return ageLastShaved;
 	}
 
-	public void setAgeLastShaved(double ageLastShaved) {
-		this.ageLastShaved = ageLastShaved;
+	public void setAgeLastShaved(int ageInDaysWhenLastShaved) {
+		this.ageLastShaved = ageInDaysWhenLastShaved;
 	}
+
 	
 }

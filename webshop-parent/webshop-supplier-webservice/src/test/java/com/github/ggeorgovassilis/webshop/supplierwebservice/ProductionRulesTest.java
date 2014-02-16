@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Configuration;
+import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
 
 import static org.junit.Assert.*;
@@ -20,18 +20,18 @@ public class ProductionRulesTest {
 	protected Animal betty2;
 	protected Animal betty3;
 	protected Herd herd;
-	protected Configuration configuration;
+	protected Production production;
 	
 	@Before
 	public void setup() {
-		betty1 = new Animal("Betty-1", 4, 1);
-		betty2 = new Animal("Betty-2", 8, 1);
-		betty3 = new Animal("Betty-3", 9.5, 1);
+		betty1 = new Animal("Betty-1", 400, 0);
+		betty2 = new Animal("Betty-2", 800, 0);
+		betty3 = new Animal("Betty-3", 950, 0);
 		herd = new Herd();
 		herd.getHerd().add(betty1);
 		herd.getHerd().add(betty2);
 		herd.getHerd().add(betty3);
-		configuration = new Configuration();
+		production = new Production();
 	}
 	
 	/**
@@ -40,9 +40,9 @@ public class ProductionRulesTest {
 	@Test
 	public void testAge() {
 		final int day = 13;
-		assertEquals(4.13, configuration.getAnimalAgeInYears(betty1, day), error);
-		assertEquals(8.13, configuration.getAnimalAgeInYears(betty2, day), error);
-		assertEquals(9.63, configuration.getAnimalAgeInYears(betty3, day), error);
+		assertEquals(4.13, production.getAnimalAgeInYearsOnDay(betty1, day), error);
+		assertEquals(8.13, production.getAnimalAgeInYearsOnDay(betty2, day), error);
+		assertEquals(9.63, production.getAnimalAgeInYearsOnDay(betty3, day), error);
 	}
 
 	/**
@@ -51,21 +51,25 @@ public class ProductionRulesTest {
 	@Test
 	public void testAgeToday() {
 		final int day = 0;
-		assertEquals(4, configuration.getAnimalAgeInYears(betty1, day), error);
-		assertEquals(8, configuration.getAnimalAgeInYears(betty2, day), error);
-		assertEquals(9.5, configuration.getAnimalAgeInYears(betty3, day), error);
+		assertEquals(4, production.getAnimalAgeInYearsOnDay(betty1, day), error);
+		assertEquals(8, production.getAnimalAgeInYearsOnDay(betty2, day), error);
+		assertEquals(9.5, production.getAnimalAgeInYearsOnDay(betty3, day), error);
+	}
+
+	/**
+	 * Test milk output for today. Since 'today' has not elapsed, the output should be 0
+	 */
+	@Test
+	public void testMilkOutputOverInterval_sameDay() {
+		assertEquals(0, production.getTotalLitersMilkedByAnimalUntilDay(betty1, 0), error);
 	}
 
 	/**
 	 * Test milk output over an interval of just one day
 	 */
 	@Test
-	public void testMilkOutputOverInterval_sameDay() {
-		final int T = 1;
-		double sum = 0;
-		for (int i=0;i<=T;i++)
-			sum+=configuration.getLitersMolkenByAnimalOnDay(betty1, i);
-		assertEquals(sum, configuration.getTotalLitersMolkenByAnimalUntilDay(betty1, T), error);
+	public void testMilkOutputOverInterval_tomorrow() {
+		assertEquals(38.0, production.getTotalLitersMilkedByAnimalUntilDay(betty1, 1), error);
 	}
 
 	/**
@@ -75,17 +79,54 @@ public class ProductionRulesTest {
 	public void testMilkOutputOverInterval_week() {
 		final int T = 7;
 		double sum = 0;
-		for (int i=0;i<=T;i++)
-			sum+=configuration.getLitersMolkenByAnimalOnDay(betty1, i);
-		assertEquals(sum, configuration.getTotalLitersMolkenByAnimalUntilDay(betty1, T), error);
+		for (int i=0;i<T;i++)
+			sum+=production.getLitersMilkedByAnimalOnDay(betty1, i);
+		assertEquals(sum, production.getTotalLitersMilkedByAnimalUntilDay(betty1, T), error);
 	}
 
 	/**
 	 * Test herd milk output in 13 days
 	 */
 	@Test
-	public void testHerdMilkOutput() {
+	public void testHerdMilkOutput_13_days() {
 		final int day = 13;
-		assertEquals(1104.48, configuration.getMilkOutputAtDate(herd, day), error);
+		assertEquals(1104.48, production.getMilkOutputAtDate(herd, day), error);
 	}
+
+	/**
+	 * Test herd milk output in 14 days
+	 */
+	@Test
+	public void testHerdMilkOutput_14_days() {
+		final int day = 14;
+		assertEquals(1188.81, production.getMilkOutputAtDate(herd, day), error);
+	}
+
+	/**
+	 * Test wool output in 13 days
+	 */
+	@Test
+	public void testHerdWoolOutput_14_days() {
+		final int day = 14;
+		assertEquals(4, production.getWoolOutputAtDate(herd, day));
+	}
+
+	/**
+	 * Test wool output today
+	 */
+	@Test
+	public void testHerdWoolOutput_today() {
+		final int day = 0;
+		assertEquals(0, production.getWoolOutputAtDate(herd, day));
+	}
+
+	/**
+	 * Test wool output tomorrow
+	 */
+	@Test
+	public void testHerdWoolOutput_tomorrow() {
+		final int day = 1;
+		assertEquals(3, production.getWoolOutputAtDate(herd, day));
+	}
+
 }
