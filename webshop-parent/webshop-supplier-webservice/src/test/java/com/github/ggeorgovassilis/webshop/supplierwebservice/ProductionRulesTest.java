@@ -33,7 +33,7 @@ public class ProductionRulesTest extends BaseTest{
 	
 	@Before
 	public void setup() {
-		herd = herdDao.find("classpath:herd.xml");
+		herd = herdDao.find("classpath:webservice/herd.xml");
 		betty1 = herd.getAnimals().get(0);
 		betty2 = herd.getAnimals().get(1);
 		betty3 = herd.getAnimals().get(2);
