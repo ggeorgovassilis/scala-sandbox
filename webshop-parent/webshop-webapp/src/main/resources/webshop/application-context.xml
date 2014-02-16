@@ -18,7 +18,7 @@
 	<tx:annotation-driven />
 	<data:repositories base-package="com.github.ggeorgovassilis.webshop.supplierwebservice.dao" />
 	<context:property-placeholder
-		location="classpath:webservice/configuration.properties"
+		location="classpath:webshop/configuration.properties, classpath:webshop/customization.properties"
 		system-properties-mode="FALLBACK" />
 
 	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.supplierwebservice" />
@@ -41,20 +41,6 @@
 		<property name="persistenceUnitName"
 			value="com.github.ggeorgovassilis.webshop.supplierwebservice" />
 		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<bean class="com.github.ggeorgovassilis.webshop.api.CommodityDTO">
-		<property name="name" value="Milk"/>
-		<property name="description" value="Finest YAK milk"/>
-		<property name="unitName" value="lt"/>
-		<property name="pricePerUnit" value="2"/>
-	</bean>
-
-	<bean class="com.github.ggeorgovassilis.webshop.api.CommodityDTO">
-		<property name="name" value="Wool"/>
-		<property name="description" value="Finest YAK wool"/>
-		<property name="unitName" value="kgr"/>
-		<property name="pricePerUnit" value="59"/>
 	</bean>
 
 </beans>

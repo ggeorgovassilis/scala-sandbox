@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.ggeorgovassilis.webshop.api.CommodityDTO;
-import com.github.ggeorgovassilis.webshop.api.ProductCatalogue;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.application.ProductionPrediction;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.AnimalDao;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
@@ -27,12 +25,11 @@ import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.service.SupplierService;
 
 /**
- * Webservice that implements the YAK shop JSON webservice and the webshop product catalogue
+ * Webservice that implements the webservice
  * @author George Georgovassilis
  *
  */
 @Controller
-@RequestMapping("/yak-shop")
 @Transactional
 public class SupplierServiceImpl implements SupplierService{
 
@@ -45,7 +42,7 @@ public class SupplierServiceImpl implements SupplierService{
 	@Autowired
 	protected AnimalDao animalDao;
 	@Override
-	@RequestMapping(value = "/stock/{daysFromNow}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/stock/{daysFromNow}", method = RequestMethod.GET)
 	public @ResponseBody StockDTO getStock(@PathVariable int daysFromNow) {
 		Herd herd = new Herd();
 		herd.setAnimals(animalDao.findAll());
@@ -91,7 +88,7 @@ public class SupplierServiceImpl implements SupplierService{
 	
 	@PostConstruct
 	public void initialized() {
-		Herd herd = herdDao.find("classpath:webservice/herd.xml");
+		Herd herd = herdDao.find("classpath:webshop/herd.xml");
 		animalDao.save(herd.getAnimals());
 	}
 
