@@ -2,6 +2,9 @@ package com.github.ggeorgovassilis.webshop.supplierwebservice.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * Models available stock for sale
  * @author george georgovassilis
@@ -9,7 +12,10 @@ import java.io.Serializable;
  */
 public class StockDTO implements Serializable {
 
+	@Min(0)
 	protected double milk;
+
+	@Min(0)
 	protected int skins;
 
 	public double getMilk() {

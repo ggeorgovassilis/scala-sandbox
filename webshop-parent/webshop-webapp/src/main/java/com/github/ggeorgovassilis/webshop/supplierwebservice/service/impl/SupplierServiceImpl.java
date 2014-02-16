@@ -1,13 +1,18 @@
 package com.github.ggeorgovassilis.webshop.supplierwebservice.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +23,7 @@ import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.AnimalDao;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.AnimalDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.OrderDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
@@ -31,6 +37,7 @@ import com.github.ggeorgovassilis.webshop.supplierwebservice.service.SupplierSer
  */
 @Controller
 @Transactional
+@RequestMapping("/api")
 public class SupplierServiceImpl implements SupplierService{
 
 	@Autowired
@@ -38,11 +45,29 @@ public class SupplierServiceImpl implements SupplierService{
 
 	@Autowired
 	protected HerdDao herdDao;
+	
+	@Autowired
+	protected Validator validator;
 
 	@Autowired
 	protected AnimalDao animalDao;
+	
+	protected void validate(Object o) {
+		Set<ConstraintViolation<Object>> result = validator.validate(o);
+		if (!result.isEmpty()) {
+			String message = "Validation failed: ";
+			String prefix="";
+			for (ConstraintViolation<Object> cv:result) {
+				message+=prefix;
+				prefix=",";
+				message+=cv.getPropertyPath()+": "+cv.getMessage();
+			}
+			throw new ValidationException(message);
+		}
+	}
+	
 	@Override
-	@RequestMapping(value = "/api/stock/{daysFromNow}", method = RequestMethod.GET)
+	@RequestMapping(value = "/stock/{daysFromNow}", method = RequestMethod.GET)
 	public @ResponseBody StockDTO getStock(@PathVariable int daysFromNow) {
 		Herd herd = new Herd();
 		herd.setAnimals(animalDao.findAll());
@@ -82,8 +107,19 @@ public class SupplierServiceImpl implements SupplierService{
 		}
 		animal.setAge(production.days(age));
 		animal.setAgeLastShaved(production.days(ageLastShorn));
+		validate(animal);
 		animal = animalDao.save(animal);
 		return toDto(animal);
+	}
+	
+	@Override
+	@RequestMapping(value = "/order/{daysFromNow}", method = RequestMethod.POST)
+	public @ResponseBody StockDTO placeOrder(@RequestBody OrderDTO order, @PathVariable int daysFromNow) {
+		validate(order);
+		StockDTO stock = getStock(daysFromNow);
+		stock.setSkins(stock.getSkins()>=order.getOrder().getSkins()?order.getOrder().getSkins():0);
+		stock.setMilk(stock.getMilk()>=order.getOrder().getMilk()?order.getOrder().getMilk():0);
+		return stock;
 	}
 	
 	@PostConstruct

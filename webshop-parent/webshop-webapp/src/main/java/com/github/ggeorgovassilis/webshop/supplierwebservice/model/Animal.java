@@ -5,7 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Models an animal. All ages/times are in days.
@@ -35,18 +38,21 @@ public class Animal implements Serializable {
 	 * Animal name
 	 */
 	@Id
+	@NotBlank
 	protected String name;
 	
 	/**
 	 * Age of animal in days
 	 */
 	@Column
+	@Min(0)
 	protected int age;
 	
 	/**
 	 * Age at which the animal was last shaved
 	 */
 	@Column
+	@Min(0)
 	protected int ageLastShaved;
 
 	public String getName() {

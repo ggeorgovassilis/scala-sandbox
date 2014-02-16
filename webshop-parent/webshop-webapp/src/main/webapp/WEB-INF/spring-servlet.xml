@@ -19,6 +19,8 @@
 
 	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.supplierwebservice.service" />
 	<mvc:annotation-driven />
+
+	<mvc:resources mapping="/static/**" location="/static/" />
 	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.OrderDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.service.SupplierService;
 
@@ -45,5 +46,31 @@ public class WebServiceTest extends BaseTest{
 		assertEquals("Betty-1", herd.getAnimals().get(0).getName());
 		assertEquals(4.13, herd.getAnimals().get(0).getAge(),error);
 		assertEquals(3.9, herd.getAnimals().get(0).getAgeLastShaved(),error);
+	}
+
+	@Test
+	public void placeOrderOnDay13() {
+		OrderDTO order = new OrderDTO();
+		StockDTO stock = new StockDTO();
+		stock.setMilk(1100);
+		stock.setSkins(3);
+		order.setCustomer("customer 1");
+		order.setOrder(stock);
+		StockDTO result = service.placeOrder(order, 13);
+		assertEquals(1100, result.getMilk(), error);
+		assertEquals(3, result.getSkins());
+	}
+
+	@Test
+	public void placeOrderOnDay14() {
+		OrderDTO order = new OrderDTO();
+		StockDTO stock = new StockDTO();
+		stock.setMilk(1200);
+		stock.setSkins(3);
+		order.setCustomer("customer 1");
+		order.setOrder(stock);
+		StockDTO result = service.placeOrder(order, 14);
+		assertEquals(0, result.getMilk(), error);
+		assertEquals(3, result.getSkins());
 	}
 }

@@ -3,6 +3,7 @@ package com.github.ggeorgovassilis.webshop.supplierwebservice.service;
 
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.AnimalDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.OrderDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
 
 /**
@@ -35,4 +36,12 @@ public interface SupplierService {
 	 * @return
 	 */
 	AnimalDTO updateAnimal(String name, double age, double ageLastShorn);
+
+	/**
+	 * Places an order and returns the part of the order that could be satisfied.
+	 * @param order
+	 * @param daysFromNow day on which to execute the order
+	 * @return
+	 */
+	StockDTO placeOrder(OrderDTO order, int daysFromNow);
 }
