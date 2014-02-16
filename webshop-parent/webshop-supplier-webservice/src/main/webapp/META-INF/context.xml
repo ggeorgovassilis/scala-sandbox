@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context docBase="webshop-webapp" path="/" crossContext="true" reloadable="true" source="org.eclipse.jst.jee.server:webshop-webapp">
 
-<Resource name="jdbc/webshopDataSource"
+<Resource name="jdbc/webserviceDataSource"
          auth="Container"
          type="javax.sql.DataSource"
-         driverClassName="com.mysql.jdbc.Driver"
-         url="jdbc:mysql://localhost:3306/webshop?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=10"
-         username="root"
-         password="sa"
+         url="jdbc:hsqldb:mem:webservicedb"
+		 driverClassName="org.hsqldb.jdbc.JDBCDriver"
+         username="SA"
+         password=""
          removeAbandoned="true"
          logAbandoned="true"
          maxActive="10"

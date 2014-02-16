@@ -1,8 +1,9 @@
 package com.github.ggeorgovassilis.webshop.supplierwebservice.service;
 
 
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.AnimalDTO;
+import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
 import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
 
 /**
  * Functional interface for an external supplier service
@@ -24,5 +25,14 @@ public interface SupplierService {
 	 * @param daysFromNow Any positive number of days.
 	 * @return
 	 */
-	Herd getHerd(int daysFromNow);
+	HerdDTO getHerd(int daysFromNow);
+	
+	/**
+	 * Update an animal.
+	 * @param name Name of animal to update. If the name does not exist yet,a new animal is added to the herd
+	 * @param age
+	 * @param ageLastShorn
+	 * @return
+	 */
+	AnimalDTO updateAnimal(String name, double age, double ageLastShorn);
 }

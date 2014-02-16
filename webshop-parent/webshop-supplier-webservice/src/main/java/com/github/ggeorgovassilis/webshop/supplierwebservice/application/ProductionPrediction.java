@@ -10,6 +10,7 @@ import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
 
 /**
  * Predicts production and prints a herd overview for a certain day.
+ * 
  * Usage:
  * 
  * ProductionPrediction path_to_herd_xml_file number_of_days_from_today
@@ -19,7 +20,7 @@ import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
 public class ProductionPrediction {
 
 	public void predict(String pathToXml, int days) {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("webservice/application-context.xml");
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"webservice/application-context.xml","webservice/standalone-environment-context.xml"});
 		Production production = context.getBean(Production.class);
 		HerdDao dao = context.getBean(HerdDao.class);
 		Herd herd = dao.find(pathToXml);
@@ -31,13 +32,16 @@ public class ProductionPrediction {
 		System.out.println(String.format("\t%1.3f liters of milk", milk));
 		System.out.println("\t"+wool+" skins of wool");
 		System.out.println("Herd:");
-		for (Animal animal:herd.getHerd())
+		for (Animal animal:herd.getAnimals())
 			System.out.println(String.format("\t%s %1.2f years old",animal.getName(),production.getAnimalAgeInYearsOnDay(animal, days)));
 	}
 
 	public static void showUsage() {
 		System.out.println("Usage:");
 		System.out.println("ProductionPrediction path_to_herd_xml_file number_of_days_from_today");
+		System.out.println();
+		System.out.println("path_to_herd_xml can be a classpath (prefix with classpath:) or file path.");
+		System.out.println("see herd.xml in test resources for an example");
 		System.out.println();
 		System.out.println("https://github.com/ggeorgovassilis/scala-sandbox/tree/master/webshop-parent");
 	}

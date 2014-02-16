@@ -127,7 +127,7 @@ public class Production {
 	 */
 	public double getMilkOutputAtDate(Herd herd, int day) {
 		double sum = 0;
-		for (Animal animal : herd.getHerd())
+		for (Animal animal : herd.getAnimals())
 			sum += getTotalLitersMilkedByAnimalUntilDay(animal, day);
 		return sum;
 	}
@@ -160,7 +160,7 @@ public class Production {
 	 */
 	public int getWoolOutputAtDate(Herd herd, int day) {
 		int units = 0;
-		for (Animal animal:herd.getHerd())
+		for (Animal animal:herd.getAnimals())
 			units+=getWoolOutputAtDate(animal, day);
 		return units;
 	}

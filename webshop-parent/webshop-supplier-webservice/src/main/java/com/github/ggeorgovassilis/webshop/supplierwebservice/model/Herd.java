@@ -6,23 +6,23 @@ import java.util.List;
 
 public class Herd implements Serializable {
 
-	protected List<Animal> herd = new ArrayList<Animal>();
+	protected List<Animal> animals = new ArrayList<Animal>();
 	
 	/**
 	 * Create a deep copy
 	 */
 	public Herd clone() {
 		Herd copy = new Herd();
-		for (Animal animal:herd)
-			copy.getHerd().add(animal.clone());
+		for (Animal animal:animals)
+			copy.getAnimals().add(animal.clone());
 		return copy;
 	}
 
-	public List<Animal> getHerd() {
-		return herd;
+	public List<Animal> getAnimals() {
+		return animals;
 	}
 
-	public void setHerd(List<Animal> herd) {
-		this.herd = herd;
+	public void setAnimals(List<Animal> animals) {
+		this.animals = animals;
 	}
 }

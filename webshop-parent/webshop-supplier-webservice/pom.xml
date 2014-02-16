@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ggeorgovassilis.webshop</groupId>
-	<artifactId>webshop-supplier-webservice</artifactId>
-	<name>webshop-supplier-webservice</name>
+	<artifactId>webshop-webservice</artifactId>
+	<name>webshop-webservice</name>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
@@ -127,14 +127,13 @@
 			<artifactId>cglib</artifactId>
 			<version>2.2.2</version>
 		</dependency>
-
-		<!-- Test -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<scope>test</scope>
 			<version>2.2.4</version>
 		</dependency>
+
+		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
