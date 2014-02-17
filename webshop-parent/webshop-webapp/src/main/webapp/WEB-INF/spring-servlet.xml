@@ -17,7 +17,7 @@
 		location="classpath:webshop/configuration.properties"
 		system-properties-mode="FALLBACK" />
 
-	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.supplierwebservice.service" />
+	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.service" />
 	<mvc:annotation-driven />
 
 	<mvc:resources mapping="/static/**" location="/static/" />

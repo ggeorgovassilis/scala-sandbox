@@ -1,8 +1,8 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.dao;
+package com.github.ggeorgovassilis.webshop.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
+import com.github.ggeorgovassilis.webshop.model.Animal;
 
 /**
  * Persistence for herd animals. Only one (global) herd supported

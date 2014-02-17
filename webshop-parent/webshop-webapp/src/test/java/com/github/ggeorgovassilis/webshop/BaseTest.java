@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice;
+package com.github.ggeorgovassilis.webshop;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

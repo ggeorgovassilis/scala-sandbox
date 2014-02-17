@@ -1,12 +1,12 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice;
+package com.github.ggeorgovassilis.webshop;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.OrderDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.service.SupplierService;
+import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
+import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
+import com.github.ggeorgovassilis.webshop.dto.StockDTO;
+import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 import static org.junit.Assert.*;
 
@@ -56,7 +56,7 @@ public class WebServiceTest extends BaseTest{
 		stock.setSkins(3);
 		order.setCustomer("customer 1");
 		order.setOrder(stock);
-		StockDTO result = service.placeOrder(order, 13);
+		StockDTO result = service.placeOrder(order, 13).getBody();
 		assertEquals(1100, result.getMilk(), error);
 		assertEquals(3, result.getSkins());
 	}
@@ -69,7 +69,7 @@ public class WebServiceTest extends BaseTest{
 		stock.setSkins(3);
 		order.setCustomer("customer 1");
 		order.setOrder(stock);
-		StockDTO result = service.placeOrder(order, 14);
+		StockDTO result = service.placeOrder(order, 14).getBody();
 		assertEquals(0, result.getMilk(), error);
 		assertEquals(3, result.getSkins());
 	}

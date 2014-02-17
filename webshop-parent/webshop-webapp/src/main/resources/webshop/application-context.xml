@@ -16,12 +16,12 @@
 
 	<context:annotation-config />
 	<tx:annotation-driven />
-	<data:repositories base-package="com.github.ggeorgovassilis.webshop.supplierwebservice.dao" />
+	<data:repositories base-package="com.github.ggeorgovassilis.webshop.dao" />
 	<context:property-placeholder
 		location="classpath:webshop/configuration.properties, classpath:webshop/customization.properties"
 		system-properties-mode="FALLBACK" />
 
-	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.supplierwebservice" />
+	<context:component-scan base-package="com.github.ggeorgovassilis.webshop" />
 
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
@@ -39,7 +39,7 @@
 			</bean>
 		</property>
 		<property name="persistenceUnitName"
-			value="com.github.ggeorgovassilis.webshop.supplierwebservice" />
+			value="com.github.ggeorgovassilis.webshop" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 

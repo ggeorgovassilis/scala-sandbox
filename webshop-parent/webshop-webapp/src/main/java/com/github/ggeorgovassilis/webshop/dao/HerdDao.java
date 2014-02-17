@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.dao;
+package com.github.ggeorgovassilis.webshop.dao;
 
 import java.io.File;
 
@@ -14,10 +14,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
+import com.github.ggeorgovassilis.webshop.dao.HerdDao;
+import com.github.ggeorgovassilis.webshop.model.Animal;
+import com.github.ggeorgovassilis.webshop.model.Herd;
+import com.github.ggeorgovassilis.webshop.model.Production;
 
 /**
  * Imports herds from XML. Identifiers are xml file names.

@@ -1,10 +1,12 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.service;
+package com.github.ggeorgovassilis.webshop.service;
 
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.AnimalDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.OrderDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
+import org.springframework.http.ResponseEntity;
+
+import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
+import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
+import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
+import com.github.ggeorgovassilis.webshop.dto.StockDTO;
 
 /**
  * Functional interface for an external supplier service
@@ -43,5 +45,5 @@ public interface SupplierService {
 	 * @param daysFromNow day on which to execute the order
 	 * @return
 	 */
-	StockDTO placeOrder(OrderDTO order, int daysFromNow);
+	ResponseEntity<StockDTO> placeOrder(OrderDTO order, int daysFromNow);
 }

@@ -1,12 +1,12 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.application;
+package com.github.ggeorgovassilis.webshop.application;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
+import com.github.ggeorgovassilis.webshop.dao.HerdDao;
+import com.github.ggeorgovassilis.webshop.model.Animal;
+import com.github.ggeorgovassilis.webshop.model.Herd;
+import com.github.ggeorgovassilis.webshop.model.Production;
 
 /**
  * Predicts production and prints a herd overview for a certain day.

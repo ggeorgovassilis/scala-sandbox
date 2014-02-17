@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.model;
+package com.github.ggeorgovassilis.webshop.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

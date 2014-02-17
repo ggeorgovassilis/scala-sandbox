@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.dto;
+package com.github.ggeorgovassilis.webshop.dto;
 
 import java.util.ArrayList;
 import java.util.List;

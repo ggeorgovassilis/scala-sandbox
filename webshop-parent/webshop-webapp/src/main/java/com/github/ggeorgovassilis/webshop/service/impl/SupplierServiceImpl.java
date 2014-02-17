@@ -1,14 +1,17 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice.service.impl;
+package com.github.ggeorgovassilis.webshop.service.impl;
 
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,18 +20,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.application.ProductionPrediction;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.AnimalDao;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.AnimalDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.HerdDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.OrderDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dto.StockDTO;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.service.SupplierService;
+import com.github.ggeorgovassilis.webshop.application.ProductionPrediction;
+import com.github.ggeorgovassilis.webshop.dao.AnimalDao;
+import com.github.ggeorgovassilis.webshop.dao.HerdDao;
+import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
+import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
+import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
+import com.github.ggeorgovassilis.webshop.dto.StockDTO;
+import com.github.ggeorgovassilis.webshop.model.Animal;
+import com.github.ggeorgovassilis.webshop.model.Herd;
+import com.github.ggeorgovassilis.webshop.model.Production;
+import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 /**
  * Webservice that implements the webservice
@@ -114,12 +118,17 @@ public class SupplierServiceImpl implements SupplierService{
 	
 	@Override
 	@RequestMapping(value = "/order/{daysFromNow}", method = RequestMethod.POST)
-	public @ResponseBody StockDTO placeOrder(@RequestBody OrderDTO order, @PathVariable int daysFromNow) {
+	public @ResponseBody ResponseEntity<StockDTO> placeOrder(@RequestBody OrderDTO order, @PathVariable int daysFromNow) {
+		HttpStatus statusCode = HttpStatus.CREATED;
 		validate(order);
 		StockDTO stock = getStock(daysFromNow);
 		stock.setSkins(stock.getSkins()>=order.getOrder().getSkins()?order.getOrder().getSkins():0);
 		stock.setMilk(stock.getMilk()>=order.getOrder().getMilk()?order.getOrder().getMilk():0);
-		return stock;
+		if (stock.getSkins()!=order.getOrder().getSkins() || stock.getMilk()!=order.getOrder().getMilk())
+			statusCode = HttpStatus.PARTIAL_CONTENT;
+		if (stock.getSkins() == 0 && stock.getMilk() == 0)
+			statusCode = HttpStatus.NOT_FOUND;
+		return new ResponseEntity<StockDTO>(stock, statusCode);
 	}
 	
 	@PostConstruct

@@ -1,13 +1,13 @@
-package com.github.ggeorgovassilis.webshop.supplierwebservice;
+package com.github.ggeorgovassilis.webshop;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.ggeorgovassilis.webshop.supplierwebservice.dao.HerdDao;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Animal;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Production;
-import com.github.ggeorgovassilis.webshop.supplierwebservice.model.Herd;
+import com.github.ggeorgovassilis.webshop.dao.HerdDao;
+import com.github.ggeorgovassilis.webshop.model.Animal;
+import com.github.ggeorgovassilis.webshop.model.Herd;
+import com.github.ggeorgovassilis.webshop.model.Production;
 
 import static org.junit.Assert.*;
 /**
