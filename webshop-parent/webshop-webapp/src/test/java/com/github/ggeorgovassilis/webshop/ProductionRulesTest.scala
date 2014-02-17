@@ -6,13 +6,13 @@ import com.github.ggeorgovassilis.webshop.dao.HerdDao
 import org.junit.Before
 import com.github.ggeorgovassilis.webshop.model.Herd
 import com.github.ggeorgovassilis.webshop.model.Animal
-import com.github.ggeorgovassilis.webshop.model.Production
 import org.springframework.test.context.TestContextManager
+import com.github.ggeorgovassilis.webshop.model.ProductionLogic
 
 class ProductionRulesTest extends BaseScalaTest {
 
 @Autowired var herdDao: HerdDao = null;
-@Autowired var production: Production = null;
+@Autowired var production: ProductionLogic = null;
 
 var herd:Herd = null;
 var betty1:Animal = null;
@@ -54,13 +54,23 @@ before{
 	production.getTotalLitersMilkedByAnimalUntilDay(betty1, day) should be (38.0)
 }
 
-"An animal" should "produce a total amount of milk for the duration of a week equal to the formula Σ (n = 0..7) [50.0 - n * 0.03]" in {
+"An animal" should "produce a total amount of milk for the duration of a week equal to the formula SUM (n = 0..7) [50.0 - n * 0.03]" in {
 	val T = 7
 	var sum:Double = 0;
 	for (t<- 0 until T){
 		sum = sum + production.getLitersMilkedByAnimalOnDay(betty1, t);
 	}
 	sum should be (production.getTotalLitersMilkedByAnimalUntilDay(betty1, T));
+}
+
+"An animal" should "produce 1 wool in 5 days" in {
+	val T = 5
+	production.getWoolOutputAtDate(betty1, T) should be (1)
+}
+
+"An animal" should "produce 2 wool in 14 days" in {
+	val T = 14
+	production.getWoolOutputAtDate(betty1, T) should be (2)
 }
 
 "The herd" should "produce a total amount of milk until day 13 that equals to 1104.48 lt" in {

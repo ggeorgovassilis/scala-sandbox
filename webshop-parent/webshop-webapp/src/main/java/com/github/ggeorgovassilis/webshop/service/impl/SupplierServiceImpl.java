@@ -27,7 +27,7 @@ import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
 import com.github.ggeorgovassilis.webshop.dto.StockDTO;
 import com.github.ggeorgovassilis.webshop.model.Animal;
 import com.github.ggeorgovassilis.webshop.model.Herd;
-import com.github.ggeorgovassilis.webshop.model.Production;
+import com.github.ggeorgovassilis.webshop.model.ProductionLogic;
 import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 /**
@@ -41,7 +41,7 @@ import com.github.ggeorgovassilis.webshop.service.SupplierService;
 public class SupplierServiceImpl implements SupplierService{
 
 	@Autowired
-	protected Production production;
+	protected ProductionLogic production;
 
 	@Autowired
 	protected HerdDao herdDao;

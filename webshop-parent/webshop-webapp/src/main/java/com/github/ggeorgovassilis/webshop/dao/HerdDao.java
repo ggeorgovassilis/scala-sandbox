@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 import com.github.ggeorgovassilis.webshop.dao.HerdDao;
 import com.github.ggeorgovassilis.webshop.model.Animal;
 import com.github.ggeorgovassilis.webshop.model.Herd;
-import com.github.ggeorgovassilis.webshop.model.Production;
+import com.github.ggeorgovassilis.webshop.model.ProductionLogic;
 
 /**
  * Imports herds from XML. Identifiers are xml file names.
@@ -27,7 +27,7 @@ import com.github.ggeorgovassilis.webshop.model.Production;
 public class HerdDao {
 
 	@Autowired
-	protected Production production;
+	protected ProductionLogic production;
 	
 	@Value("${herdXmlElementName}")
 	protected String xmlElementNameString;

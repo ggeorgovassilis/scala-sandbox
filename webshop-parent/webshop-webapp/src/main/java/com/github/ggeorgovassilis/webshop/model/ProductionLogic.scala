@@ -1,47 +1,44 @@
-package com.github.ggeorgovassilis.webshop.model;
+package com.github.ggeorgovassilis.webshop.model
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component
 
+import scala.collection.JavaConversions._
 /**
  * Models herd production (the production logic / 'physics' of production)
  * @author george georgovassilis
  *
  */
 @Component
-public class Production {
+class ProductionLogic {
 
-	/**
+  	/**
 	 * Calendar days in an animal year
 	 */
-	protected final int daysPerAnimalYear = 100;
+	val daysPerAnimalYear = 100;
 	
 	/**
 	 * Animals can be shorn if at least this old
 	 */
-	protected final int minimumAgeForShearingInDays = 1*daysPerAnimalYear;
+	val minimumAgeForShearingInDays:Double = 1*daysPerAnimalYear;
 
 	/**
 	 * An animal is removed from the heard once it is so old
 	 */
-	protected final int maximumAnimalAgeInDays = 10*daysPerAnimalYear;
+	val maximumAnimalAgeInDays = 10*daysPerAnimalYear;
 	
 	/**
 	 * Convert days to animal years
 	 * @param days
 	 * @return
 	 */
-	public double years(int days) {
-		return (double)days/(double)daysPerAnimalYear;
-	}
+	def years(days:Int) = days.toDouble/daysPerAnimalYear.toDouble;
 
 	/**
 	 * Convert animal years to days. Rounding behavior is unspecified.
 	 * @param years
 	 * @return
 	 */
-	public int days(double years) {
-		return (int)(years*(double)daysPerAnimalYear);
-	}
+	def days(years:Double) = (years*daysPerAnimalYear.toDouble).toInt;
 
 	/**
 	 * Get animal age as it will be on a certain day in the future. This may return
@@ -53,9 +50,7 @@ public class Production {
 	 *            Positive number. So many days from now in the future
 	 * @return Age in animal years
 	 */
-	public double getAnimalAgeInYearsOnDay(Animal animal, int day) {
-		return years(animal.age + day);
-	}
+	def getAnimalAgeInYearsOnDay(animal: Animal, day: Int) = years(animal.age + day);
 
 	/**
 	 * Return the numbers of productive days an animal has remaining at a certain target day
@@ -63,11 +58,11 @@ public class Production {
 	 * @param day
 	 * @return
 	 */
-	protected int getProductiveDaysRemainingFor(Animal animal, int day) {
-		int daysRemaining = maximumAnimalAgeInDays - animal.age - day;
+	def getProductiveDaysRemainingFor(animal: Animal, day: Int) = {
+		val daysRemaining = maximumAnimalAgeInDays - animal.age - day;
 		if (daysRemaining<0)
-			return 0;
-		return daysRemaining;
+			0
+		else daysRemaining
 	}
 
 	/**
@@ -76,11 +71,11 @@ public class Production {
 	 * @param day
 	 * @return
 	 */
-	public double getLitersMilkedByAnimalOnDay(Animal animal, int day) {
-		int ageAtTargetDay = animal.age + day;
+	def getLitersMilkedByAnimalOnDay(animal: Animal, day: Int) = {
+		val ageAtTargetDay = animal.age + day
 		if (ageAtTargetDay >= daysPerAnimalYear*maximumAnimalAgeInDays)
-			return 0;
-		return 50.0 - ageAtTargetDay * 0.03;
+			0
+		else 50.0 - ageAtTargetDay * 0.03
 	}
 
 	/**
@@ -89,15 +84,14 @@ public class Production {
 	 * @param day positive number
 	 * @return
 	 */
-	public double getTotalLitersMilkedByAnimalUntilDay(Animal animal, int day) {
-		int daysElapsed = day - 1;
-		if (daysElapsed < 0)
-			return 0;
-		int lastDayOfMilking = Math.min(daysElapsed, getProductiveDaysRemainingFor(animal, 0));
-		int daysOfMilking = lastDayOfMilking+1;
-		double outputToday = getLitersMilkedByAnimalOnDay(animal, 0);
-		double outputOnLastDay = getLitersMilkedByAnimalOnDay(animal, lastDayOfMilking);
-		return 0.5*(outputToday+outputOnLastDay)*(double)(daysOfMilking);
+	def getTotalLitersMilkedByAnimalUntilDay(animal: Animal, day: Int) = {
+		val daysElapsed = day - 1
+		if (daysElapsed < 0) 0
+		val lastDayOfMilking = Math.min(daysElapsed, getProductiveDaysRemainingFor(animal, 0))
+		val daysOfMilking = lastDayOfMilking+1
+		val outputToday = getLitersMilkedByAnimalOnDay(animal, 0)
+		val outputOnLastDay = getLitersMilkedByAnimalOnDay(animal, lastDayOfMilking)
+		0.5*(outputToday+outputOnLastDay)*daysOfMilking.toDouble
 	}
 
 	/**
@@ -106,16 +100,16 @@ public class Production {
 	 * @param day
 	 * @return
 	 */
-	public boolean canShearOn(Animal animal, int day) {
-		int ageAtTargetDay = animal.age + day;
+	def canShearOn(animal: Animal, day: Int):Boolean = {
+		val ageAtTargetDay = animal.age + day
 		// too young or too old?
 		if (ageAtTargetDay < minimumAgeForShearingInDays || ageAtTargetDay >= maximumAnimalAgeInDays)
-			return false;
-		int daysSinceLastShearing = ageAtTargetDay - animal.getAgeLastShaved();
-		double canShearEverySoManyDays = 8.0 + ageAtTargetDay * 0.01;
+			return false
+		val daysSinceLastShearing = ageAtTargetDay - animal.ageLastShaved
+		val canShearEverySoManyDays = 8.0 + ageAtTargetDay.toDouble * 0.01
 		if (canShearEverySoManyDays > daysSinceLastShearing)
-			return false;
-		return true;
+			return false
+		return true
 	}
 
 	/**
@@ -125,11 +119,10 @@ public class Production {
 	 * @param day
 	 * @return
 	 */
-	public double getMilkOutputAtDate(Herd herd, int day) {
-		double sum = 0;
-		for (Animal animal : herd.getAnimals())
-			sum += getTotalLitersMilkedByAnimalUntilDay(animal, day);
-		return sum;
+	def getMilkOutputAtDate(herd: Herd, day: Int) = {
+		var sum:Double = 0
+		herd.animals.foreach(animal => sum=sum+getTotalLitersMilkedByAnimalUntilDay(animal, day))
+		sum
 	}
 
 	/**
@@ -139,16 +132,16 @@ public class Production {
 	 * @param day
 	 * @return
 	 */
-	public int getWoolOutputAtDate(Animal animal,int day) {
+	def getWoolOutputAtDate(animal: Animal, day:Int) = {
 		// TODO: replace this implementation with an efficient one for large values of 'day'
-		Animal copy = animal.clone();
-		int units = 0;
-		for (int d=0;d<day;d++)
+	  val copy = animal.clone()
+		var units = 0
+		for (d <- 0 until day)
 			if (canShearOn(copy, d)) {
-				copy.ageLastShaved = copy.age+d;
-				units++;
+				copy.ageLastShaved = copy.age+d
+				units = units + 1
 			}
-		return units;
+		units
 	}
 	
 	/**
@@ -158,10 +151,12 @@ public class Production {
 	 * @param day
 	 * @return
 	 */
-	public int getWoolOutputAtDate(Herd herd, int day) {
-		int units = 0;
-		for (Animal animal:herd.getAnimals())
-			units+=getWoolOutputAtDate(animal, day);
-		return units;
+	def getWoolOutputAtDate(herd: Herd, day: Int):Int = {
+		var units = 0
+		herd.animals.foreach(animal => {
+		  units=units+getWoolOutputAtDate(animal, day)
+		  })
+		units
 	}
+
 }

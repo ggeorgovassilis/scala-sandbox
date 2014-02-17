@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.github.ggeorgovassilis.webshop.dao.HerdDao;
 import com.github.ggeorgovassilis.webshop.model.Animal;
 import com.github.ggeorgovassilis.webshop.model.Herd;
-import com.github.ggeorgovassilis.webshop.model.Production;
+import com.github.ggeorgovassilis.webshop.model.ProductionLogic;
 
 /**
  * Predicts production and prints a herd overview for a certain day.
@@ -20,7 +20,7 @@ public class ProductionPrediction {
 
 	public void predict(String pathToXml, int days) {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"webshop/application-context.xml","webshop/standalone-environment-context.xml"});
-		Production production = context.getBean(Production.class);
+		ProductionLogic production = context.getBean(ProductionLogic.class);
 		HerdDao dao = context.getBean(HerdDao.class);
 		Herd herd = dao.find(pathToXml);
 		
