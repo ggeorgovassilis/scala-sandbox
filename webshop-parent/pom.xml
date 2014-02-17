@@ -15,7 +15,5 @@
 
   <modules>
   	<module>webshop-webapp</module>
-  	<module>webshop-supplier-webservice</module>
-  	<module>webshop-api</module>
   </modules>
 </project>
