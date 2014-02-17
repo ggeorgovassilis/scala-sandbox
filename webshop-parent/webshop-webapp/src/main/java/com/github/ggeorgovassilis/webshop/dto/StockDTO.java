@@ -3,7 +3,6 @@ package com.github.ggeorgovassilis.webshop.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * Models available stock for sale

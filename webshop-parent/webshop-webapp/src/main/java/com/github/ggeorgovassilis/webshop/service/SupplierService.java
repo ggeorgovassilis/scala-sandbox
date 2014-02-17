@@ -41,9 +41,13 @@ public interface SupplierService {
 
 	/**
 	 * Places an order and returns the part of the order that could be satisfied.
+	 * It returns the following http statuses:
+	 * 201 - order fully placed
+	 * 206 - order partially placed (over quota)
+	 * 404 - order not placed
 	 * @param order
 	 * @param daysFromNow day on which to execute the order
-	 * @return
+	 * @return Will always return a {@link StockDTO} object with the quantities that were actually served
 	 */
 	ResponseEntity<StockDTO> placeOrder(OrderDTO order, int daysFromNow);
 }

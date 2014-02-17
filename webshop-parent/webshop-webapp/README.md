@@ -1,8 +1,8 @@
-# Sample web service for the scala webshop
+## Sample web service for the scala webshop
 
 Simulates a milk and wool supplier
 
-# Functional specs
+## Functional specs
 
 This web service computes the future output of milk and wool of a herd of animals. 
 - An animal year lasts 100 days.
@@ -13,11 +13,11 @@ This web service computes the future output of milk and wool of a herd of animal
 - An animal can be shorn only after it turns 1 year old.
 - The simulation starts at day 0 where every eligible animal can be shorn and milked.
 
-# Command line usage
+## Command line usage
 
 java com.github.ggeorgovassilis.webshop.application.ProductionPrediction path_to_xml day
 
-# Web service usage
+## Web service usage
 
 Assuming that the WAR file is deployed under the standard application name webshop-webapp:
 
@@ -42,10 +42,21 @@ The POST body is something like:
 }
 
 
-# Assumptions / Known issues
+## Assumptions / Known issues
 - All animals are assumed to produce milk and wool. In practice there might be categories of animals that produce one and not the other.
 - The calculation of the wool output is iterative and thus inefficient for dates far in the future
 - The internal data representation has been normalized to days
 - The root URL is defined by the deployment procedure of this WAR file
 - There is no state management. It is possible to place orders which when summed exceed the stock. Placed orders do not
   reduce the available stock.
+- Uses an in-memory database. Edit context.xml for a container managed database connection.
+  
+## Installation
+- Download and run mvn install
+- Deploy WAR file to a servlet container possibly changing the webapp name if the application should be serving from a different URL than the default one
+
+Optionally 
+
+- Edit context.xml for a container managed database connection if required
+- Edit "herd.xml" in /WEB-INF/classes/customization
+- Edit "customization.properties" in /WEB-INF/classes/customization

@@ -1,7 +1,6 @@
 package com.github.ggeorgovassilis.webshop.application;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import com.github.ggeorgovassilis.webshop.dao.HerdDao;
 import com.github.ggeorgovassilis.webshop.model.Animal;
@@ -50,7 +49,6 @@ public class ProductionPrediction {
 		if (strings.length != 2) {
 			return false;
 		}
-		String pathToXml = strings[0];
 		int days = 0;
 		try {
 			days = Integer.parseInt(strings[1]);

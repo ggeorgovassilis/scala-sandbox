@@ -9,8 +9,19 @@ import java.io.Serializable;
  */
 public class AnimalDTO implements Serializable {
 
+	/**
+	 * The animal name is also the unique identifier
+	 */
 	protected String name;
+	
+	/**
+	 * Age in animal years
+	 */
 	protected double age;
+	
+	/**
+	 * Age at which animal was last shaved. In animal years.
+	 */
 	protected double ageLastShaved;
 
 	public String getName() {

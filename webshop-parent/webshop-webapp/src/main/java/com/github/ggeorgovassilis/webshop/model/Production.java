@@ -3,7 +3,7 @@ package com.github.ggeorgovassilis.webshop.model;
 import org.springframework.stereotype.Component;
 
 /**
- * Models herd production
+ * Models herd production (the production logic / 'physics' of production)
  * @author george georgovassilis
  *
  */

@@ -6,13 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Models an animal. All ages/times are in days.
- * @author george
+ * @author george georgovassilis
  *
  */
 @Entity

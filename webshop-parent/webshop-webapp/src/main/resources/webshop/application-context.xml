@@ -18,7 +18,7 @@
 	<tx:annotation-driven />
 	<data:repositories base-package="com.github.ggeorgovassilis.webshop.dao" />
 	<context:property-placeholder
-		location="classpath:webshop/configuration.properties, classpath:webshop/customization.properties"
+		location="classpath:webshop/configuration.properties, classpath:customization/customization.properties"
 		system-properties-mode="FALLBACK" />
 
 	<context:component-scan base-package="com.github.ggeorgovassilis.webshop" />

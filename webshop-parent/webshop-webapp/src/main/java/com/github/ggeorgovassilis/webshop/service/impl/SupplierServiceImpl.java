@@ -1,10 +1,8 @@
 package com.github.ggeorgovassilis.webshop.service.impl;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
@@ -20,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.github.ggeorgovassilis.webshop.application.ProductionPrediction;
 import com.github.ggeorgovassilis.webshop.dao.AnimalDao;
 import com.github.ggeorgovassilis.webshop.dao.HerdDao;
 import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
@@ -35,7 +31,7 @@ import com.github.ggeorgovassilis.webshop.model.Production;
 import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 /**
- * Webservice that implements the webservice
+ * Supplier web service. It can query stock, the herd status, update the herd and place orders
  * @author George Georgovassilis
  *
  */
@@ -133,7 +129,7 @@ public class SupplierServiceImpl implements SupplierService{
 	
 	@PostConstruct
 	public void initialized() {
-		Herd herd = herdDao.find("classpath:webshop/herd.xml");
+		Herd herd = herdDao.find("classpath:customization/herd.xml");
 		animalDao.save(herd.getAnimals());
 	}
 
