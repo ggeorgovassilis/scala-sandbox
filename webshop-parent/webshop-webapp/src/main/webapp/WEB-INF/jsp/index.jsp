@@ -53,8 +53,20 @@
 <h2 ng-show="order.result.status=='complete'" >Placed order for</h2>
 <h2 ng-show="order.result.status=='partial'" >Placed partial order for</h2>
 <h2 ng-show="order.result.status=='none'" >Couldn't place order</h2>
-<div ng-show="order.milk">{{order.result.milk}} lt milk</div>
-<div ng-show="order.wool">{{order.result.wool}} hides of wool</div>
+<table class="table table-striped table-bordered table-condensed" ng-show="order.result.status!='none'">
+<tr>
+	<td>Date</td><td>{{order.result.day}}</td>
+</tr>
+<tr ng-show="order.milk">
+	<td>Milk (lt)</td><td>{{order.result.milk}}</td>
+</tr>
+<tr ng-show="order.wool">
+	<td>Wool (units)</td><td>{{order.result.wool}}</td>
+</tr>
+<tr>
+	<td>Order number</td><td>{{order.result.id}}</td>
+</tr>
+</table>
 </div>
 </form>
 

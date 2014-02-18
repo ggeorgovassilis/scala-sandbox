@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
 import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
 import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
+import com.github.ggeorgovassilis.webshop.dto.ReceiptDTO;
 import com.github.ggeorgovassilis.webshop.dto.StockDTO;
 
 /**
@@ -49,5 +50,12 @@ public interface SupplierService {
 	 * @param daysFromNow day on which to execute the order
 	 * @return Will always return a {@link StockDTO} object with the quantities that were actually served
 	 */
-	ResponseEntity<StockDTO> placeOrder(OrderDTO order, int daysFromNow);
+	ResponseEntity<ReceiptDTO> placeOrder(OrderDTO order, int daysFromNow);
+	
+	/**
+	 * Find an order by ID
+	 * @param id
+	 * @return
+	 */
+	ResponseEntity<ReceiptDTO> findOrder(String id);
 }

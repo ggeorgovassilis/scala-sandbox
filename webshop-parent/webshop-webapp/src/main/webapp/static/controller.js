@@ -21,13 +21,13 @@ angular.module('webshop', []).controller(
 					var dto={customer:order.customer, 
 							order:{
 								milk:order.milk,
-								skins:order.wool
+								skins:order.wool,
 							}
 					};
 				    $http({method: 'POST', url: 'api/order/1', data:dto}).
 				    success(function(data, status, headers, config) {
 				    	var s = status==201?"complete":"partial";
-				    	order.result = {wool:data.skins, milk:data.milk, status:s};
+				    	order.result = {wool:data.skins, milk:data.milk, status:s, customerName:data.customerName, day:data.day, id:data.id};
 				    }).
 				    error(function(data, status, headers, config) {
 				    	order.result = {wool:data.skins, milk:data.milk, status:"none"};

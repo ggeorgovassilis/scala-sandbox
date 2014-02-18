@@ -6,12 +6,13 @@ import com.github.ggeorgovassilis.webshop.dao.HerdDao
 import org.junit.Before
 import com.github.ggeorgovassilis.webshop.model.Herd
 import com.github.ggeorgovassilis.webshop.model.Animal
-import com.github.ggeorgovassilis.webshop.model.Production
+import com.github.ggeorgovassilis.webshop.model.ProductionLogic
 import org.springframework.test.context.TestContextManager
 import com.github.ggeorgovassilis.webshop.service.SupplierService
 import com.github.ggeorgovassilis.webshop.dto.AnimalDTO
 import com.github.ggeorgovassilis.webshop.dto.OrderDTO
 import com.github.ggeorgovassilis.webshop.dto.StockDTO
+import scala.collection.JavaConversions._
 
 /**
  * Tests the webservice which provides access to the herd database and production functions
@@ -52,6 +53,7 @@ new TestContextManager(this.getClass()).prepareTestInstance(this)
 }
 
 "A small order" should "be placed on day 13 and fully serviced" in {
+	val day = 13;
 	val order = new OrderDTO()
 	val	stock = new StockDTO()
 	stock.setMilk(1100);
@@ -59,10 +61,13 @@ new TestContextManager(this.getClass()).prepareTestInstance(this)
 	order.setCustomer("customer 1");
 	order.setOrder(stock);
 	
-	val result = service.placeOrder(order, 13);
+	val result = service.placeOrder(order, day);
+	val receipt = result.getBody();
 	result.getStatusCode().value() should be (201)
-	result.getBody().getMilk() should be (1100)
-	result.getBody().getSkins() should be (3)
+	receipt.getMilk() should be (1100)
+	receipt.getSkins() should be (3)
+	receipt.getDay() should be (day);
+	receipt.getCustomerName() should be ("customer 1")
 }
 
 "A large order" should "be placed on day 14 and partially serviced" in {
@@ -92,4 +97,20 @@ new TestContextManager(this.getClass()).prepareTestInstance(this)
 	result.getBody().getMilk() should be (0)
 	result.getBody().getSkins() should be (0)
 }
+
+"An order that was placed" should "be retrievable with the receipt ID" in {
+	val order = new OrderDTO()
+	val	stock = new StockDTO()
+	stock.setMilk(12);
+	order.setCustomer("customer 1");
+	order.setOrder(stock);
+	
+	val receipt = service.placeOrder(order, 14).getBody();
+	val originalOrder = service.findOrder(receipt.getId()).getBody();
+	
+	originalOrder.getMilk() should be (12)
+	originalOrder.getDay() should be (14)
+	originalOrder.getCustomerName() should be ("customer 1")
+}
+
 }

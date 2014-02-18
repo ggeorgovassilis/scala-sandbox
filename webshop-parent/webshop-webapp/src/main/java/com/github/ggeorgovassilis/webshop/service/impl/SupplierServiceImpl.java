@@ -21,54 +21,63 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.ggeorgovassilis.webshop.dao.AnimalDao;
 import com.github.ggeorgovassilis.webshop.dao.HerdDao;
+import com.github.ggeorgovassilis.webshop.dao.OrderDao;
 import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
 import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
 import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
+import com.github.ggeorgovassilis.webshop.dto.ReceiptDTO;
 import com.github.ggeorgovassilis.webshop.dto.StockDTO;
 import com.github.ggeorgovassilis.webshop.model.Animal;
 import com.github.ggeorgovassilis.webshop.model.Herd;
+import com.github.ggeorgovassilis.webshop.model.Order;
 import com.github.ggeorgovassilis.webshop.model.ProductionLogic;
 import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 /**
- * Supplier web service. It can query stock, the herd status, update the herd and place orders
+ * Supplier web service. It can query stock, the herd status, update the herd
+ * and place orders
+ * 
  * @author George Georgovassilis
- *
+ * 
  */
 @Controller
 @Transactional
 @RequestMapping("/api")
-public class SupplierServiceImpl implements SupplierService{
+public class SupplierServiceImpl implements SupplierService {
 
 	@Autowired
 	protected ProductionLogic production;
 
 	@Autowired
 	protected HerdDao herdDao;
-	
+
 	@Autowired
 	protected Validator validator;
 
 	@Autowired
 	protected AnimalDao animalDao;
-	
+
+	@Autowired
+	protected OrderDao orderDao;
+
 	protected void validate(Object o) {
 		Set<ConstraintViolation<Object>> result = validator.validate(o);
 		if (!result.isEmpty()) {
 			String message = "Validation failed: ";
-			String prefix="";
-			for (ConstraintViolation<Object> cv:result) {
-				message+=prefix;
-				prefix=",";
-				message+=cv.getPropertyPath()+": "+cv.getMessage();
+			String prefix = "";
+			for (ConstraintViolation<Object> cv : result) {
+				message += prefix;
+				prefix = ",";
+				message += cv.getPropertyPath() + ": " + cv.getMessage();
 			}
 			throw new ValidationException(message);
 		}
 	}
-	
+
 	@Override
 	@RequestMapping(value = "/stock/{daysFromNow}", method = RequestMethod.GET)
-	public @ResponseBody StockDTO getStock(@PathVariable int daysFromNow) {
+	public @ResponseBody
+	StockDTO getStock(@PathVariable int daysFromNow) {
 		Herd herd = new Herd();
 		herd.setAnimals(animalDao.findAll());
 		StockDTO stock = new StockDTO();
@@ -77,21 +86,35 @@ public class SupplierServiceImpl implements SupplierService{
 		return stock;
 	}
 
-	AnimalDTO toDto(Animal animal) {
+	protected ReceiptDTO toReceipt(Order order) {
+		ReceiptDTO receipt = new ReceiptDTO();
+		if (order != null) {
+			receipt.setDay(order.getDate());
+			receipt.setId(order.getId());
+			receipt.setMilk(order.getMilk());
+			receipt.setSkins(order.getWool());
+			receipt.setCustomerName(order.getCustomerName());
+		}
+		return receipt;
+	}
+
+	protected AnimalDTO toDto(Animal animal) {
 		AnimalDTO dto = new AnimalDTO();
 		dto.setAge(production.years(animal.getAge()));
 		dto.setAgeLastShaved(production.years(animal.getAgeLastShaved()));
 		dto.setName(animal.getName());
 		return dto;
 	}
-	
+
 	@Override
 	@RequestMapping(value = "/herd/{daysFromNow}", method = RequestMethod.GET)
-	public @ResponseBody HerdDTO getHerd(@PathVariable int daysFromNow) {
+	public @ResponseBody
+	HerdDTO getHerd(@PathVariable int daysFromNow) {
 		HerdDTO herdDTO = new HerdDTO();
 		for (Animal animal : animalDao.findAll()) {
 			AnimalDTO animalDTO = toDto(animal);
-			animalDTO.setAge(production.getAnimalAgeInYearsOnDay(animal, daysFromNow));
+			animalDTO.setAge(production.getAnimalAgeInYearsOnDay(animal,
+					daysFromNow));
 			herdDTO.getAnimals().add(animalDTO);
 		}
 		return herdDTO;
@@ -99,7 +122,10 @@ public class SupplierServiceImpl implements SupplierService{
 
 	@Override
 	@RequestMapping(value = "/herd/add", method = RequestMethod.GET)
-	public @ResponseBody AnimalDTO updateAnimal(@RequestParam("name") String name, @RequestParam("age") double age, @RequestParam("ageLastShorn") double ageLastShorn) {
+	public @ResponseBody
+	AnimalDTO updateAnimal(@RequestParam("name") String name,
+			@RequestParam("age") double age,
+			@RequestParam("ageLastShorn") double ageLastShorn) {
 		Animal animal = animalDao.findOne(name);
 		if (animal == null) {
 			animal = new Animal();
@@ -111,26 +137,60 @@ public class SupplierServiceImpl implements SupplierService{
 		animal = animalDao.save(animal);
 		return toDto(animal);
 	}
-	
+
 	@Override
 	@RequestMapping(value = "/order/{daysFromNow}", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<StockDTO> placeOrder(@RequestBody OrderDTO order, @PathVariable int daysFromNow) {
+	public @ResponseBody
+	ResponseEntity<ReceiptDTO> placeOrder(@RequestBody OrderDTO order,
+			@PathVariable int daysFromNow) {
 		HttpStatus statusCode = HttpStatus.CREATED;
+		ReceiptDTO receipt = null;
+		StockDTO stock = null;
+		Order persistedOrder = null;
+
 		validate(order);
-		StockDTO stock = getStock(daysFromNow);
-		stock.setSkins(stock.getSkins()>=order.getOrder().getSkins()?order.getOrder().getSkins():0);
-		stock.setMilk(stock.getMilk()>=order.getOrder().getMilk()?order.getOrder().getMilk():0);
-		if (stock.getSkins()!=order.getOrder().getSkins() || stock.getMilk()!=order.getOrder().getMilk())
+		if (daysFromNow < 0)
+			throw new ValidationException("Shipment can't be in the past");
+		stock = getStock(daysFromNow);
+
+		stock.setSkins(stock.getSkins() >= order.getOrder().getSkins() ? order
+				.getOrder().getSkins() : 0);
+		stock.setMilk(stock.getMilk() >= order.getOrder().getMilk() ? order
+				.getOrder().getMilk() : 0);
+		if (stock.getSkins() != order.getOrder().getSkins()
+				|| stock.getMilk() != order.getOrder().getMilk())
 			statusCode = HttpStatus.PARTIAL_CONTENT;
 		if (stock.getSkins() == 0 && stock.getMilk() == 0)
 			statusCode = HttpStatus.NOT_FOUND;
-		return new ResponseEntity<StockDTO>(stock, statusCode);
+		else {
+			persistedOrder = new Order();
+			persistedOrder.setDate(daysFromNow);
+			persistedOrder.setMilk(stock.getMilk());
+			persistedOrder.setWool(stock.getSkins());
+			persistedOrder.setCustomerName(order.getCustomer());
+			persistedOrder = orderDao.saveAndFlush(persistedOrder);
+		}
+		receipt = toReceipt(persistedOrder);
+		return new ResponseEntity<>(receipt, statusCode);
 	}
-	
+
 	@PostConstruct
 	public void initialized() {
 		Herd herd = herdDao.find("classpath:customization/herd.xml");
 		animalDao.save(herd.getAnimals());
+	}
+
+	@Override
+	public ResponseEntity<ReceiptDTO> findOrder(String id) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		ReceiptDTO receipt = new ReceiptDTO();
+
+		Order order = orderDao.findOne(id);
+		if (order != null) {
+			status = HttpStatus.OK;
+			receipt = toReceipt(order);
+		}
+		return new ResponseEntity<ReceiptDTO>(receipt, status);
 	}
 
 }

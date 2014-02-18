@@ -2,6 +2,8 @@ package com.github.ggeorgovassilis.webshop.dto;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Models a herd animal. Ages are in animal years.
  * @author George Georgovassilis
@@ -22,6 +24,7 @@ public class AnimalDTO implements Serializable {
 	/**
 	 * Age at which animal was last shaved. In animal years.
 	 */
+	 @JsonProperty("age-last-shaved")
 	protected double ageLastShaved;
 
 	public String getName() {
