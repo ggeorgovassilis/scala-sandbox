@@ -181,7 +181,8 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public ResponseEntity<ReceiptDTO> findOrder(String id) {
+	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ReceiptDTO> findOrder(@PathVariable String id) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		ReceiptDTO receipt = new ReceiptDTO();
 

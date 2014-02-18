@@ -1,0 +1,37 @@
+<h2>Find an order</h2>
+<form name="orderForm" ng-controller="SearchOrderController as order">
+<label for="order-id">Order ID</label>
+<input ng-model="order.id" id="order-id" required class="form-control" placeholder="Order ID"/>
+<br/>
+<button class="btn btn-primary" ng-click="order.submit()">Submit Order</button>
+<a href="#/">Back to overview</a>
+<br/>
+<br/>
+<br/>
+<p class="error" ng-show="order.errors.message">{{order.errors.message}}</p>
+
+<div ng-show="order.receipt">
+<br/>
+<h2 ng-show="order.receipt.status=='complete'" >Placed order for</h2>
+<h2 ng-show="order.receipt.status=='partial'" >Placed partial order for</h2>
+<h2 ng-show="order.receipt.status=='none'" >Couldn't place order</h2>
+<table class="table table-striped table-bordered table-condensed" ng-show="order.receipt.status!='none'">
+<tr>
+	<td>Date</td><td>{{order.receipt.day}}</td>
+</tr>
+<tr>
+	<td>Customer</td><td>{{order.receipt.customerName}}</td>
+</tr>
+<tr ng-show="order.receipt.milk">
+	<td>Milk (lt)</td><td>{{order.receipt.milk}}</td>
+</tr>
+<tr ng-show="order.receipt.wool">
+	<td>Wool (units)</td><td>{{order.receipt.wool}}</td>
+</tr>
+<tr>
+	<td>Order number</td><td>{{order.receipt.id}}</td>
+</tr>
+</table>
+</div>
+
+</form>
