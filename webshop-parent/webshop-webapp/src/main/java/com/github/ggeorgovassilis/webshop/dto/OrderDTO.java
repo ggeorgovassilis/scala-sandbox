@@ -2,6 +2,7 @@ package com.github.ggeorgovassilis.webshop.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,6 +17,17 @@ public class OrderDTO implements Serializable {
 
 	@NotNull
 	protected StockDTO order;
+	
+	@Min(1)
+	protected Integer day;
+
+	public Integer getDay() {
+		return day;
+	}
+
+	public void setDay(Integer day) {
+		this.day = day;
+	}
 
 	public String getCustomer() {
 		return customer;

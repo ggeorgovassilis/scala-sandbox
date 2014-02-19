@@ -6,3 +6,17 @@ body{
 button.btn{
 	margin-right:2em;	
 }
+
+.error{
+	color:maroon;
+	font-weight:bold;
+}
+
+.icon-arrow-left:before{
+	display:block;
+	content:"<"
+}
+.icon-arrow-right:before{
+	display:block;
+	content:">"
+}

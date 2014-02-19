@@ -1,18 +1,13 @@
 package com.github.ggeorgovassilis.webshop
-
-import scala.collection.mutable.Stack
-import org.springframework.beans.factory.annotation.Autowired
-import com.github.ggeorgovassilis.webshop.dao.HerdDao
-import org.junit.Before
-import com.github.ggeorgovassilis.webshop.model.Herd
-import com.github.ggeorgovassilis.webshop.model.Animal
-import com.github.ggeorgovassilis.webshop.model.ProductionLogic
 import org.springframework.test.context.TestContextManager
-import com.github.ggeorgovassilis.webshop.service.SupplierService
-import com.github.ggeorgovassilis.webshop.dto.AnimalDTO
 import com.github.ggeorgovassilis.webshop.dto.OrderDTO
 import com.github.ggeorgovassilis.webshop.dto.StockDTO
 import scala.collection.JavaConversions._
+import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.transaction.TransactionConfiguration
+import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * Tests the webservice which provides access to the herd database and production functions
@@ -20,8 +15,6 @@ import scala.collection.JavaConversions._
  *
  */
 class WebServiceTest extends BaseScalaTest {
-
-@Autowired val service:SupplierService = null;
 
 new TestContextManager(this.getClass()).prepareTestInstance(this)
 
@@ -32,7 +25,7 @@ new TestContextManager(this.getClass()).prepareTestInstance(this)
 }
 
 "Betty-1" should "be in the herd and have aged by 13 days on day 13" in {
-	val herd = service.getHerd(13);
+	val herd = service.getHerd(13).getBody();
 	val betty1 = herd.getAnimals().get(0)
 
 	herd.getAnimals().size() should be (3)
@@ -43,7 +36,7 @@ new TestContextManager(this.getClass()).prepareTestInstance(this)
 
 "Betty-1" should "have been shaved at age 3.9 after that has been committed to the database" in {
 	service.updateAnimal("Betty-1", 4, 3.9);
-	val herd = service.getHerd(13);
+	val herd = service.getHerd(13).getBody();
 	val betty1 = herd.getAnimals().get(0)
 		
 	herd.getAnimals().size() should be (3);

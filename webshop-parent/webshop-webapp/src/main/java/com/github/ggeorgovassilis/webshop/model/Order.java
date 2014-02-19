@@ -39,7 +39,7 @@ public class Order implements Serializable {
 	
 	@Column
 	@NotNull
-	@Min(0)
+	@Min(1)
 	protected int date;
 	
 	@Column

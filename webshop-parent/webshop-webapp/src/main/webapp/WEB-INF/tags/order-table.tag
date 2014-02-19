@@ -8,8 +8,8 @@
 <tr ng-show="order.receipt.milk">
 	<td>Milk (lt)</td><td>{{order.receipt.milk}}</td>
 </tr>
-<tr ng-show="order.receipt.wool">
-	<td>Wool (units)</td><td>{{order.receipt.wool}}</td>
+<tr ng-show="order.receipt.skins">
+	<td>Wool (units)</td><td>{{order.receipt.skins}}</td>
 </tr>
 <tr>
 	<td>Order number</td><td><a href='#/order/{{order.receipt.id}}'>{{order.receipt.id}}</a></td>

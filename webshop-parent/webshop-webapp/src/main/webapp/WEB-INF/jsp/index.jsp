@@ -12,15 +12,20 @@
 	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 <link rel="stylesheet"
 	href="static/css/webshop.css">
-
+<link rel="stylesheet"
+	href="http://mgcrea.github.io/angular-strap/1.0/vendor/bootstrap-datepicker.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <script
 	src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="http://code.angularjs.org/1.2.13/angular.js"></script>
 <script type="text/javascript"
 	src="http://code.angularjs.org/1.2.13/angular-route.js"></script>
+<script type="text/javascript" src="http://mgcrea.github.io/angular-strap/1.0/vendor/bootstrap-datepicker.js"></script>
+
 <script type="text/javascript"
 	src="static/js/controller.js"></script>
 

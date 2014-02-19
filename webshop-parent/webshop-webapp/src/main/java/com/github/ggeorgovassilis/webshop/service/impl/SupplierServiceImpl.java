@@ -4,22 +4,24 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.github.ggeorgovassilis.webshop.dao.AnimalDao;
 import com.github.ggeorgovassilis.webshop.dao.HerdDao;
@@ -29,6 +31,7 @@ import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
 import com.github.ggeorgovassilis.webshop.dto.OrderDTO;
 import com.github.ggeorgovassilis.webshop.dto.ReceiptDTO;
 import com.github.ggeorgovassilis.webshop.dto.StockDTO;
+import com.github.ggeorgovassilis.webshop.dto.ValidationErrorsDTO;
 import com.github.ggeorgovassilis.webshop.model.Animal;
 import com.github.ggeorgovassilis.webshop.model.Herd;
 import com.github.ggeorgovassilis.webshop.model.Order;
@@ -42,7 +45,7 @@ import com.github.ggeorgovassilis.webshop.service.SupplierService;
  * @author George Georgovassilis
  * 
  */
-@Controller
+@Controller("SupplierServiceImpl")
 @Transactional
 @RequestMapping("/api")
 public class SupplierServiceImpl implements SupplierService {
@@ -65,14 +68,7 @@ public class SupplierServiceImpl implements SupplierService {
 	protected void validate(Object o) {
 		Set<ConstraintViolation<Object>> result = validator.validate(o);
 		if (!result.isEmpty()) {
-			String message = "Validation failed: ";
-			String prefix = "";
-			for (ConstraintViolation<Object> cv : result) {
-				message += prefix;
-				prefix = ",";
-				message += cv.getPropertyPath() + ": " + cv.getMessage();
-			}
-			throw new ValidationException(message);
+			throw new ConstraintViolationException(result);
 		}
 	}
 
@@ -111,19 +107,25 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	@RequestMapping(value = "/herd/{daysFromNow}", method = RequestMethod.GET)
 	public @ResponseBody
-	HerdDTO getHerd(@PathVariable int daysFromNow) {
-		HerdDTO herdDTO = new HerdDTO();
-		for (Animal animal : animalDao.findAll()) {
-			AnimalDTO animalDTO = toDto(animal);
-			animalDTO.setAge(production.getAnimalAgeInYearsOnDay(animal,
-					daysFromNow));
-			herdDTO.getAnimals().add(animalDTO);
+	ResponseEntity<HerdDTO> getHerd(@PathVariable int daysFromNow) {
+		HerdDTO herdDTO = null;
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		if (daysFromNow >= 0) {
+			status = HttpStatus.OK;
+			herdDTO = new HerdDTO();
+			for (Animal animal : animalDao.findAll()) {
+				AnimalDTO animalDTO = toDto(animal);
+				animalDTO.setAge(production.getAnimalAgeInYearsOnDay(animal,
+						daysFromNow));
+				herdDTO.getAnimals().add(animalDTO);
+			}
 		}
-		return herdDTO;
+		return new ResponseEntity<HerdDTO>(herdDTO, status);
 	}
 
 	/**
-	 * This should be a POST, but we're leaving it a GET to make it easier accessible with the browser
+	 * This should be a POST, but we're leaving it a GET to make it easier
+	 * accessible with the browser
 	 */
 	@Override
 	@RequestMapping(value = "/herd/add", method = RequestMethod.GET)
@@ -146,16 +148,14 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	@RequestMapping(value = "/order/{daysFromNow}", method = RequestMethod.POST)
 	public @ResponseBody
-	ResponseEntity<ReceiptDTO> placeOrder(@RequestBody OrderDTO order,
+	ResponseEntity<ReceiptDTO> placeOrder(@RequestBody @Valid OrderDTO order,
 			@PathVariable int daysFromNow) {
 		HttpStatus statusCode = HttpStatus.CREATED;
+		Order persistedOrder = null;
 		ReceiptDTO receipt = null;
 		StockDTO stock = null;
-		Order persistedOrder = null;
-
+		order.setDay(daysFromNow);
 		validate(order);
-		if (daysFromNow < 0)
-			throw new ValidationException("Shipment can't be in the past");
 		stock = getStock(daysFromNow);
 
 		stock.setSkins(stock.getSkins() >= order.getOrder().getSkins() ? order
@@ -173,6 +173,7 @@ public class SupplierServiceImpl implements SupplierService {
 			persistedOrder.setMilk(stock.getMilk());
 			persistedOrder.setWool(stock.getSkins());
 			persistedOrder.setCustomerName(order.getCustomer());
+			validate(persistedOrder);
 			persistedOrder = orderDao.saveAndFlush(persistedOrder);
 		}
 		receipt = toReceipt(persistedOrder);
@@ -187,7 +188,8 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ReceiptDTO> findOrder(@PathVariable String id) {
+	public @ResponseBody
+	ResponseEntity<ReceiptDTO> findOrder(@PathVariable String id) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		ReceiptDTO receipt = new ReceiptDTO();
 
@@ -197,6 +199,19 @@ public class SupplierServiceImpl implements SupplierService {
 			receipt = toReceipt(order);
 		}
 		return new ResponseEntity<ReceiptDTO>(receipt, status);
+	}
+
+	@ExceptionHandler(ValidationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	public ValidationErrorsDTO processValidationError(
+			ConstraintViolationException ex) {
+		ValidationErrorsDTO errors = new ValidationErrorsDTO();
+		for (ConstraintViolation<?> v : ex.getConstraintViolations()) {
+			errors.getFieldErrors().put(v.getPropertyPath().toString(),
+					v.getMessage());
+		}
+		return errors;
 	}
 
 }

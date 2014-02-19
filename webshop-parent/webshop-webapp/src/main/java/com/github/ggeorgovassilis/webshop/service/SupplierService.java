@@ -29,7 +29,7 @@ public interface SupplierService {
 	 * @param daysFromNow Any positive number of days.
 	 * @return
 	 */
-	HerdDTO getHerd(int daysFromNow);
+	ResponseEntity<HerdDTO> getHerd(int daysFromNow);
 	
 	/**
 	 * Update an animal.
