@@ -2,6 +2,9 @@ package com.github.ggeorgovassilis.webshop.service;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
 import com.github.ggeorgovassilis.webshop.dto.HerdDTO;
@@ -14,6 +17,9 @@ import com.github.ggeorgovassilis.webshop.dto.StockDTO;
  * @author george georgovassilis
  *
  */
+@Controller
+@Transactional
+@RequestMapping("/api")
 public interface SupplierService {
 
 	/**
@@ -58,4 +64,9 @@ public interface SupplierService {
 	 * @return
 	 */
 	ResponseEntity<ReceiptDTO> findOrder(String id);
+	
+	/**
+	 * Imports production data from archive
+	 */
+	void importHerd();
 }

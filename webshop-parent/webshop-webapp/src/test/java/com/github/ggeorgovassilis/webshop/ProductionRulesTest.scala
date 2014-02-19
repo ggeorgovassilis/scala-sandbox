@@ -1,16 +1,11 @@
 package com.github.ggeorgovassilis.webshop
 import org.springframework.beans.factory.annotation.Autowired
-import com.github.ggeorgovassilis.webshop.dao.HerdDao
 import com.github.ggeorgovassilis.webshop.model.Herd
 import com.github.ggeorgovassilis.webshop.model.Animal
-import org.springframework.test.context.TestContextManager
-import com.github.ggeorgovassilis.webshop.model.ProductionLogic
 import org.junit.runner.RunWith
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.transaction.TransactionConfiguration
-import org.springframework.test.context.web.WebAppConfiguration
-import org.springframework.transaction.annotation.Transactional
-import org.springframework.stereotype.Component
+import com.github.ggeorgovassilis.webshop.service.dao.HerdDao
+import com.github.ggeorgovassilis.webshop.service.logic.ProductionLogic
+import org.springframework.test.context.TestContextManager
 
 class ProductionRulesTest extends BaseScalaTest {
 

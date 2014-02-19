@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop.service.impl;
+package com.github.ggeorgovassilis.webshop.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

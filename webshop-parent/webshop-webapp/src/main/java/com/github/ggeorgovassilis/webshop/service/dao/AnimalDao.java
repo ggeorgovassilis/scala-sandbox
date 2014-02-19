@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop.dao;
+package com.github.ggeorgovassilis.webshop.service.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

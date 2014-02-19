@@ -6,7 +6,6 @@ import scala.collection.JavaConversions._
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.transaction.TransactionConfiguration
-import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.transaction.annotation.Transactional
 
 /**
@@ -17,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional
 class WebServiceTest extends BaseScalaTest {
 
 new TestContextManager(this.getClass()).prepareTestInstance(this)
+
+before{
+	service.importHerd();
+}
 
 "The herd stock" should "be on day 13 1104.48 lt milk and 3 hides" in {
 	val stock = service.getStock(13)

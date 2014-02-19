@@ -1,8 +1,9 @@
-package com.github.ggeorgovassilis.webshop.model
+package com.github.ggeorgovassilis.webshop.service.logic
 
 import org.springframework.stereotype.Component
-
 import scala.collection.JavaConversions._
+import com.github.ggeorgovassilis.webshop.model.Animal
+import com.github.ggeorgovassilis.webshop.model.Herd
 /**
  * Models herd production (the production logic / 'physics' of production)
  * @author george georgovassilis
@@ -50,7 +51,7 @@ class ProductionLogic {
 	 *            Positive number. So many days from now in the future
 	 * @return Age in animal years
 	 */
-	def getAnimalAgeInYearsOnDay(animal: Animal, day: Int) = years(animal.age + day);
+	def getAnimalAgeInYearsOnDay(animal: Animal, day: Int) = years(animal.getAge() + day);
 
 	/**
 	 * Return the numbers of productive days an animal has remaining at a certain target day
@@ -59,7 +60,7 @@ class ProductionLogic {
 	 * @return
 	 */
 	def getProductiveDaysRemainingFor(animal: Animal, day: Int) = {
-		val daysRemaining = maximumAnimalAgeInDays - animal.age - day;
+		val daysRemaining = maximumAnimalAgeInDays - animal.getAge() - day;
 		if (daysRemaining<0)
 			0
 		else daysRemaining
@@ -72,7 +73,7 @@ class ProductionLogic {
 	 * @return
 	 */
 	def getLitersMilkedByAnimalOnDay(animal: Animal, day: Int) = {
-		val ageAtTargetDay = animal.age + day
+		val ageAtTargetDay = animal.getAge() + day
 		if (ageAtTargetDay >= daysPerAnimalYear*maximumAnimalAgeInDays)
 			0
 		else 50.0 - ageAtTargetDay * 0.03
@@ -101,11 +102,11 @@ class ProductionLogic {
 	 * @return
 	 */
 	def canShearOn(animal: Animal, day: Int):Boolean = {
-		val ageAtTargetDay = animal.age + day
+		val ageAtTargetDay = animal.getAge() + day
 		// too young or too old?
 		if (ageAtTargetDay < minimumAgeForShearingInDays || ageAtTargetDay >= maximumAnimalAgeInDays)
 			return false
-		val daysSinceLastShearing = ageAtTargetDay - animal.ageLastShaved
+		val daysSinceLastShearing = ageAtTargetDay - animal.getAgeLastShaved()
 		val canShearEverySoManyDays = 8.0 + ageAtTargetDay.toDouble * 0.01
 		if (canShearEverySoManyDays > daysSinceLastShearing)
 			return false
@@ -121,7 +122,7 @@ class ProductionLogic {
 	 */
 	def getMilkOutputAtDate(herd: Herd, day: Int) = {
 		var sum:Double = 0
-		herd.animals.foreach(animal => sum=sum+getTotalLitersMilkedByAnimalUntilDay(animal, day))
+		herd.getAnimals().foreach(animal => sum=sum+getTotalLitersMilkedByAnimalUntilDay(animal, day))
 		sum
 	}
 
@@ -138,7 +139,7 @@ class ProductionLogic {
 		var units = 0
 		for (d <- 0 until day)
 			if (canShearOn(copy, d)) {
-				copy.ageLastShaved = copy.age+d
+				copy.setAgeLastShaved(copy.getAge()+d)
 				units = units + 1
 			}
 		units
@@ -153,7 +154,7 @@ class ProductionLogic {
 	 */
 	def getWoolOutputAtDate(herd: Herd, day: Int):Int = {
 		var units = 0
-		herd.animals.foreach(animal => {
+		herd.getAnimals().foreach(animal => {
 		  units=units+getWoolOutputAtDate(animal, day)
 		  })
 		units

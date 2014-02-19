@@ -10,7 +10,6 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.transaction.TransactionConfiguration
-import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.transaction.annotation.Transactional
 import javax.xml.bind.ValidationException
 import javax.validation.ConstraintViolationException
