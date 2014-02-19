@@ -3,4 +3,4 @@
 <div ng-controller="ShowOrderController as order">
 <w:order-table/>
 </div>
-<a href="#/">Back to overview</a>
+<w:back/>

@@ -2,3 +2,7 @@ body{
 	
 	padding:1em;
 }
+
+button.btn{
+	margin-right:2em;	
+}

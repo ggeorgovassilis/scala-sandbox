@@ -5,5 +5,5 @@
 <input ng-model="order.id" id="order-id" required class="form-control" placeholder="Order ID"/>
 <br/>
 <button class="btn btn-primary" ng-click="order.submit()" ng-disabled="order.submitInProgress">Submit Order</button>
-<a href="#/">Back to overview</a>
+<w:back/>
 </form>

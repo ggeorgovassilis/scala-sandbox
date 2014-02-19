@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<web-app version="3.0" metadata-complete="true" xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:j2ee="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3.0.xsd">
 	<display-name>webshop-webapp</display-name>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:webshop/environment-context.xml, classpath:webshop/application-context.xml</param-value>
+		<param-value>classpath:webshop/environment-context.xml,
+			classpath:webshop/application-context.xml
+		</param-value>
 	</context-param>
 
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
 	</listener>
 	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+		<listener-class>org.springframework.web.context.request.RequestContextListener
+		</listener-class>
 	</listener>
 
 	<servlet>
@@ -27,13 +31,28 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/webshop-datasource</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
-	
-	<absolute-ordering />
+
+	<!-- <security-role> <role-name>manager</role-name> </security-role> <security-constraint> 
+		<web-resource-collection> <web-resource-name> Entire Application </web-resource-name> 
+		<url-pattern>/api/herd/add</url-pattern> </web-resource-collection> <auth-constraint> 
+		<role-name>manager</role-name> </auth-constraint> </security-constraint> 
+		<login-config> <auth-method>BASIC</auth-method> <realm-name>Evaluation Area</realm-name> 
+		</login-config> -->
 </web-app>

@@ -16,7 +16,7 @@
 <div ng-show="order.errors.quantity">{{order.errors.quantity}}</div>
 <br/>
 <button class="btn btn-primary" ng-click="order.submit()" ng-disabled="order.submitInProgress">Submit Order</button>
-<a href="#/">Back to overview</a>
+<w:back/>
 <br/>
 <div ng-show="order.receipt">
 <h2 ng-show="order.result.status=='complete'" >Placed order for</h2>
