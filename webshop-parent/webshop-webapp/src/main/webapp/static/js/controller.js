@@ -3,17 +3,22 @@ var webshopApp = angular.module('webshopApp',['ngRoute']);
 webshopApp.config(function($routeProvider){
 	$routeProvider.
 	when('/', {
-		templateUrl : 'static/templates/main-page.html',
+		templateUrl : 'templates/main-page.html',
 		controller : 'MainController'
 	}).
 	when('/search-order', {
-		templateUrl : 'static/templates/search-order-form.html',
+		templateUrl : 'templates/search-order-form.html',
 		controller : 'SearchOrderController'
 	}).
 	when('/place-order', {
-		templateUrl : 'static/templates/order-placement-form.html',
+		templateUrl : 'templates/order-placement-form.html',
 		controller : 'OrderPlacementController'
-	}).otherwise({
+	}).
+	when('/order/:orderId',{
+		templateUrl : 'templates/show-order-page.html',
+		controller : 'ShowOrderController'
+	})
+	.otherwise({
         redirectTo : '/'
     });
 });
@@ -26,6 +31,31 @@ webshopApp.controller("MainController",["$scope","$http",
 function ($scope, $http) {
 }]);
 
+
+webshopApp.controller("ShowOrderController",["$scope","$http","$location","$routeParams", function($scope, $http, $location, $routeParams){
+	var order = this;
+	order.id = $routeParams.orderId;
+	order.submitInProgress = true;
+	order.errors = null;
+	$http({
+		method : 'GET',
+		url : 'api/order/'+order.id,
+	}).success(function(data, status, headers, config) {
+		order.submitInProgress = false;
+		order.receipt = data;
+		console.log(data);
+	}).error(function(data, status, headers, config) {
+		order.receipt = null;
+		order.submitInProgress = false;
+		if (status == 404){
+			order.errors = {message:"No order with ID "+order.id};
+		} else{
+			order.errors = {message:"There was some technical problem"};
+		}
+	});
+	
+}]);
+
 webshopApp.controller("SearchOrderController",["$scope","$http","$location",
 function($scope, $http, $location){
 	var order = this;
@@ -34,26 +64,9 @@ function($scope, $http, $location){
 			return {id:"Please enter the order number"};
 		};
 	};
-
+	
 	this.submit = function(){
-		order.errors = this.validate(order);
-		if (order.errors)
-			return;
-		$http({
-			method : 'GET',
-			url : 'api/order/'+order.id,
-		}).success(function(data, status, headers, config) {
-			//$location.path("/order/"+data.id);
-			order.receipt = data;
-		}).error(function(data, status, headers, config) {
-			order.receipt = null;
-			if (status == 404){
-				order.errors = {message:"No order with that ID"};
-			} else{
-				order.errors = {message:"There was some technical problem"};
-			}
-		});
-
+		$location.path("/order/"+order.id);
 	};
 }]);
 
@@ -85,21 +98,17 @@ function ($scope, $http) {
 						skins : order.wool,
 					}
 				};
+				order.submitInProgress = true;
 				$http({
 					method : 'POST',
 					url : 'api/order/1',
 					data : dto
 				}).success(function(data, status, headers, config) {
 					var s = status == 201 ? "complete" : "partial";
-					order.result = {
-						wool : data.skins,
-						milk : data.milk,
-						status : s,
-						customerName : data.customerName,
-						day : data.day,
-						id : data.id
-					};
+					order.submitInProgress = false;
+					order.receipt = data;
 				}).error(function(data, status, headers, config) {
+					order.submitInProgress = false;
 					order.result = {
 						wool : data.skins,
 						milk : data.milk,

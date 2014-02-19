@@ -1,3 +1,4 @@
+<%@ taglib tagdir="/WEB-INF/tags" prefix="w" %>
 <form name="orderForm" ng-controller="OrderPlacementController as order">
 <h1>Place an order</h1>
 <label for="customer-name">Customer name</label>
@@ -14,27 +15,14 @@
 
 <div ng-show="order.errors.quantity">{{order.errors.quantity}}</div>
 <br/>
-<button class="btn btn-primary" ng-click="order.submit()">Submit Order</button>
+<button class="btn btn-primary" ng-click="order.submit()" ng-disabled="order.submitInProgress">Submit Order</button>
 <a href="#/">Back to overview</a>
-
-<div ng-show="order.result">
 <br/>
+<div ng-show="order.receipt">
 <h2 ng-show="order.result.status=='complete'" >Placed order for</h2>
 <h2 ng-show="order.result.status=='partial'" >Placed partial order for</h2>
 <h2 ng-show="order.result.status=='none'" >Couldn't place order</h2>
-<table class="table table-striped table-bordered table-condensed" ng-show="order.result.status!='none'">
-<tr>
-	<td>Date</td><td>{{order.result.day}}</td>
-</tr>
-<tr ng-show="order.milk">
-	<td>Milk (lt)</td><td>{{order.result.milk}}</td>
-</tr>
-<tr ng-show="order.wool">
-	<td>Wool (units)</td><td>{{order.result.wool}}</td>
-</tr>
-<tr>
-	<td>Order number</td><td>{{order.result.id}}</td>
-</tr>
-</table>
+<br/>
+<w:order-table/>
 </div>
 </form>

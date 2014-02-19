@@ -1,11 +1,11 @@
-<!doctype html>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %><!doctype html>
 <html lang="en" xmlns:ng="http://angularjs.org" ng-app="webshopApp">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>Webshop</title>
+<title><s:message code="ui.shopName"/></title>
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet"
