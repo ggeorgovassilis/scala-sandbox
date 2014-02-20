@@ -1,5 +1,7 @@
 package com.github.ggeorgovassilis.webshop.application;
 
+import java.util.Locale;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.github.ggeorgovassilis.webshop.model.Animal;
@@ -28,11 +30,12 @@ public class ProductionPrediction {
 		int wool = production.getWoolOutputAtDate(herd, days);
 
 		System.out.println("In Stock:");
-		System.out.println(String.format("\t%1.3f liters of milk", milk));
+		System.out.println(String.format(Locale.ENGLISH, "\t%1.3f liters of milk", milk));
 		System.out.println("\t"+wool+" skins of wool");
 		System.out.println("Herd:");
 		for (Animal animal:herd.getAnimals())
-			System.out.println(String.format("\t%s %1.2f years old",animal.getName(),production.getAnimalAgeInYearsOnDay(animal, days)));
+			System.out.println(String.format(Locale.ENGLISH, "\t%s %1.2f years old",animal.getName(),production.getAnimalAgeInYearsOnDay(animal, days)));
+		context.close();
 	}
 
 	public static void showUsage() {

@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class HerdDTO {
 
-	protected List<AnimalDTO> animals = new ArrayList<AnimalDTO>();
+	protected List<AnimalDTO> herd = new ArrayList<AnimalDTO>();
 
-	public List<AnimalDTO> getAnimals() {
-		return animals;
+	public List<AnimalDTO> getHerd() {
+		return herd;
 	}
 
-	public void setAnimals(List<AnimalDTO> animals) {
-		this.animals = animals;
+	public void setHerd(List<AnimalDTO> animals) {
+		this.herd = animals;
 	}
 }

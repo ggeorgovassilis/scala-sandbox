@@ -3,12 +3,14 @@ package com.github.ggeorgovassilis.webshop.controller;
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +30,8 @@ import com.github.ggeorgovassilis.webshop.service.SupplierService;
 
 /**
  * Supplier web service. It can query stock, the herd status, update the herd
- * and place orders
+ * and place orders. The controller maps 1:1 to the {@link SupplierService}, please
+ * consult that for method details.
  * 
  * @author George Georgovassilis
  * 
@@ -52,10 +55,6 @@ public class SupplierAjaxController {
 		return service.getHerd(daysFromNow);
 	}
 
-	/**
-	 * This should be a POST, but we're leaving it a GET to make it easier
-	 * accessible with the browser
-	 */
 	@RequestMapping(value = "/herd/add", method = RequestMethod.GET)
 	public @ResponseBody
 	AnimalDTO updateAnimal(@RequestParam("name") String name,
@@ -66,9 +65,10 @@ public class SupplierAjaxController {
 
 	@RequestMapping(value = "/order/{daysFromNow}", method = RequestMethod.POST)
 	public @ResponseBody
-	ResponseEntity<ReceiptDTO> placeOrder(@RequestBody OrderDTO order,
+	ResponseEntity<ReceiptDTO> placeOrder(@Valid @RequestBody OrderDTO order, BindingResult rs,
 			@PathVariable int daysFromNow) {
-		return service.placeOrder(order, daysFromNow);
+		ResponseEntity<ReceiptDTO> response = service.placeOrder(order, daysFromNow);
+		return response;
 	}
 
 	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
@@ -79,7 +79,7 @@ public class SupplierAjaxController {
 
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ValidationErrorsDTO processValidationError(
+	public @ResponseBody ValidationErrorsDTO processValidationError(
 			ConstraintViolationException ex) {
 		ValidationErrorsDTO errors = new ValidationErrorsDTO();
 		for (ConstraintViolation<?> v : ex.getConstraintViolations()) {

@@ -1,5 +1,8 @@
 package com.github.ggeorgovassilis.webshop.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -10,9 +13,11 @@ import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.ggeorgovassilis.webshop.dto.AnimalDTO;
@@ -36,8 +41,10 @@ import com.github.ggeorgovassilis.webshop.service.logic.ProductionLogic;
  * @author George Georgovassilis
  * 
  */
+@Controller
 @Service
 @Transactional
+@RequestMapping("/api")
 public class SupplierServiceImpl implements SupplierService {
 
 	@Autowired
@@ -75,7 +82,7 @@ public class SupplierServiceImpl implements SupplierService {
 	protected ReceiptDTO toReceipt(Order order) {
 		ReceiptDTO receipt = new ReceiptDTO();
 		if (order != null) {
-			receipt.setDay(order.getDate());
+			receipt.setDate(order.getDate());
 			receipt.setId(order.getId());
 			receipt.setMilk(order.getMilk());
 			receipt.setSkins(order.getWool());
@@ -103,7 +110,7 @@ public class SupplierServiceImpl implements SupplierService {
 				AnimalDTO animalDTO = toDto(animal);
 				animalDTO.setAge(production.getAnimalAgeInYearsOnDay(animal,
 						daysFromNow));
-				herdDTO.getAnimals().add(animalDTO);
+				herdDTO.getHerd().add(animalDTO);
 			}
 		}
 		return new ResponseEntity<HerdDTO>(herdDTO, status);
@@ -128,6 +135,12 @@ public class SupplierServiceImpl implements SupplierService {
 		animal = animalDao.save(animal);
 		return toDto(animal);
 	}
+	
+	protected Date getDateFromDays(int days){
+		Calendar c = new GregorianCalendar();
+		c.add(Calendar.DAY_OF_MONTH, days);
+		return c.getTime();
+	}
 
 	@Override
 	public ResponseEntity<ReceiptDTO> placeOrder(
@@ -151,7 +164,7 @@ public class SupplierServiceImpl implements SupplierService {
 			statusCode = HttpStatus.NOT_FOUND;
 		else {
 			persistedOrder = new Order();
-			persistedOrder.setDate(daysFromNow);
+			persistedOrder.setDate(getDateFromDays(daysFromNow));
 			persistedOrder.setMilk(stock.getMilk());
 			persistedOrder.setWool(stock.getSkins());
 			persistedOrder.setCustomerName(order.getCustomer());

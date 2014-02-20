@@ -1,6 +1,6 @@
 <table class="table table-striped table-bordered table-condensed" ng-show="order.receipt">
 <tr>
-	<td>Date</td><td>{{order.receipt.day}}</td>
+	<td>Date</td><td>{{order.receipt.date.getDate() | numberFixedLen:2}}/{{order.receipt.date.getMonth()+1  | numberFixedLen:2}}/{{order.receipt.date.getFullYear() | numberFixedLen:4}}</td>
 </tr>
 <tr>
 	<td>Customer</td><td>{{order.receipt.customerName}}</td>

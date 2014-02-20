@@ -1,8 +1,7 @@
 package com.github.ggeorgovassilis.webshop.dto;
 
 import java.io.Serializable;
-
-import javax.validation.constraints.Min;
+import java.util.Date;
 
 /**
  * Models the response to an order
@@ -13,7 +12,7 @@ public class ReceiptDTO implements Serializable {
 
 	protected double milk;
 	protected int skins;
-	protected int day;
+	protected Date date;
 	protected String id;
 	protected String customerName;
 	
@@ -25,12 +24,12 @@ public class ReceiptDTO implements Serializable {
 		this.customerName = customerName;
 	}
 
-	public int getDay() {
-		return day;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setDay(int day) {
-		this.day = day;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public String getId() {

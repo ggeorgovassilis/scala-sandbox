@@ -16,8 +16,8 @@
 <div class="error" ng-show="order.errors.wool">{{order.errors.wool}}</div>
 <div class="error" ng-show="order.errors.quantity">{{order.errors.quantity}}</div>
 
-<label for="date">Date to execute order</label>
-<input id="datepicker" ng-model="order.date" type="date" class="form-control" value="0" placeholder="Day"/>
+<label for="date">Date to execute order (month/day/year)</label>
+<input id="datepicker" data-date-format="dd/mm/yyyy" ng-model="order.date" type="date" class="form-control" value="0" placeholder="Day"/>
 <div class="error" ng-show="orderForm.date.$error.number">Not valid number!</div>
 <div class="error" ng-show="order.errors.day">{{order.errors.day}}</div>
 <br/>
@@ -29,11 +29,8 @@
 <h2 ng-show="order.status=='partial'" >Order partially placed</h2>
 <h2 ng-show="order.status=='none'" >Couldn't place order</h2>
 <br/>
+<div ng-show="order.status!='none'">
 <w:order-table/>
 </div>
+</div>
 </form>
- <script>
- $(function() {
-		$( "#datepicker" ).datepicker({dateFormat: "dd mm yy", showButtonPanel: true});
-});
- </script>

@@ -1,11 +1,23 @@
+/**
+ * angular.js controllers for the webshop application.
+ * This module defines four routes:
+ * 
+ * / MainController
+ * Shows the home page
+ * 
+ * /order/{id} ShowOrderController
+ * Shows an order identified by ID
+ * 
+ * /place-order PlaceOrderController
+ * Validates an order form, places the order and shows the newly placed order
+ * 
+ * /search-order SearchOrderController
+ * Searches for an order based in its ID
+ * 
+ */
 var webshopApp = angular.module('webshopApp',['ngRoute']);
 
-webshopApp.value('$strapConfig', {
-	datepicker: {
-	language: 'fr',
-	format: 'M d, yyyy'
-	}
-	});
+webshopApp.value('$strapConfig');
 webshopApp.config(function($routeProvider){
 	$routeProvider.
 	when('/', {
@@ -29,9 +41,30 @@ webshopApp.config(function($routeProvider){
     });
 });
 
+
+webshopApp
+.filter('numberFixedLen', function () {
+    return function (n, len) {
+        var num = parseInt(n, 10);
+        len = parseInt(len, 10);
+        if (isNaN(num) || isNaN(len)) {
+            return n;
+        }
+        num = ''+num;
+        while (num.length < len) {
+            num = '0'+num;
+        }
+        return num;
+    };
+});
 webshopApp.filter('escape', function() {
 	return window.escape;
 });
+
+function unpack(receipt){
+	receipt.date = new Date(receipt.date);
+	return receipt;
+}
 
 webshopApp.controller("MainController",["$scope","$http",
 function ($scope, $http) {
@@ -48,8 +81,7 @@ webshopApp.controller("ShowOrderController",["$scope","$http","$location","$rout
 		url : 'api/order/'+order.id,
 	}).success(function(data, status, headers, config) {
 		order.submitInProgress = false;
-		order.receipt = data;
-		console.log(data);
+		order.receipt = unpack(data);
 	}).error(function(data, status, headers, config) {
 		order.receipt = null;
 		order.submitInProgress = false;
@@ -84,7 +116,10 @@ function pad(num){
 }
 
 function parseDate(s){
-	return new Date(Date.parse(s));
+	var parts = s.split("/");
+	var date=  new Date(parts[2], parseInt(parts[1])-1, parts[0]);
+	return date;
+	
 }
 
 
@@ -95,15 +130,17 @@ function dateDiffInDays(a, b) {
 	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
-webshopApp.controller("OrderPlacementController",["$scope","$http",
-function ($scope, $http) {
+
+webshopApp.controller("OrderPlacementController",["$scope","$http", function ($scope, $http) {
+	$( "#datepicker" ).datepicker({dateFormat: "dd mm yy", showButtonPanel: true});
+
 	var order = this;
 	$scope.showNewOrderForm = function() {
 		order.customer = 'test';
 		order.milk = 1;
 		order.wool = 2;
 		var now = new Date();
-		order.date = pad(now.getMonth()+1)+"/"+pad(now.getDate())+"/"+now.getFullYear();
+		order.date = pad(now.getDate())+"/"+pad(now.getMonth()+1)+"/"+now.getFullYear();
 		order.validate = function validate(order) {
 			var errors = {};
 			if (!order.customer || order.customer == "")
@@ -142,7 +179,7 @@ function ($scope, $http) {
 				}).success(function(data, status, headers, config) {
 					var s = status == 201 ? "complete" : "partial";
 					order.submitInProgress = false;
-					order.receipt = data;
+					order.receipt = unpack(data);
 					order.status = s;
 				}).error(function(data, status, headers, config) {
 					order.submitInProgress = false;

@@ -1,6 +1,7 @@
 package com.github.ggeorgovassilis.webshop.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,8 +40,7 @@ public class Order implements Serializable {
 	
 	@Column
 	@NotNull
-	@Min(1)
-	protected int date;
+	protected Date date;
 	
 	@Column
 	@NotNull
@@ -79,11 +79,11 @@ public class Order implements Serializable {
 		this.wool = wool;
 	}
 
-	public int getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(int date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

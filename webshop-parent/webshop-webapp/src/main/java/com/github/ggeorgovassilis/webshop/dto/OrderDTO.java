@@ -19,13 +19,13 @@ public class OrderDTO implements Serializable {
 	protected StockDTO order;
 	
 	@Min(1)
-	protected Integer day;
-
-	public Integer getDay() {
+	protected int day = 1;
+	
+	public int getDay() {
 		return day;
 	}
 
-	public void setDay(Integer day) {
+	public void setDay(int day) {
 		this.day = day;
 	}
 

@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.transaction.TransactionConfiguration
 import org.springframework.transaction.annotation.Transactional
+import java.util.Date
 
 /**
  * Tests the webservice which provides access to the herd database and production functions
@@ -29,9 +30,9 @@ before{
 
 "Betty-1" should "be in the herd and have aged by 13 days on day 13" in {
 	val herd = service.getHerd(13).getBody();
-	val betty1 = herd.getAnimals().get(0)
+	val betty1 = herd.getHerd().get(0)
 
-	herd.getAnimals().size() should be (3)
+	herd.getHerd().size() should be (3)
 	betty1.getName() should be ("Betty-1")
 	betty1.getAge() should be (4.13)
 	betty1.getAgeLastShaved() should be (0)
@@ -40,9 +41,9 @@ before{
 "Betty-1" should "have been shaved at age 3.9 after that has been committed to the database" in {
 	service.updateAnimal("Betty-1", 4, 3.9);
 	val herd = service.getHerd(13).getBody();
-	val betty1 = herd.getAnimals().get(0)
+	val betty1 = herd.getHerd().get(0)
 		
-	herd.getAnimals().size() should be (3);
+	herd.getHerd().size() should be (3);
 	betty1.getName() should be ("Betty-1")
 	betty1.getAge() should be (4.13)
 	betty1.getAgeLastShaved() should be (3.9)
@@ -62,7 +63,7 @@ before{
 	result.getStatusCode().value() should be (201)
 	receipt.getMilk() should be (1100)
 	receipt.getSkins() should be (3)
-	receipt.getDay() should be (day);
+	TestSupport.getDifferenceInDays(new Date(), receipt.getDate()) should be (day);
 	receipt.getCustomerName() should be ("customer 1")
 }
 
@@ -105,7 +106,7 @@ before{
 	val originalOrder = service.findOrder(receipt.getId()).getBody();
 	
 	originalOrder.getMilk() should be (12)
-	originalOrder.getDay() should be (14)
+	TestSupport.getDifferenceInDays(new Date(), originalOrder.getDate()) should be (14)
 	originalOrder.getCustomerName() should be ("customer 1")
 }
 
