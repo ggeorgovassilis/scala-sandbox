@@ -2,11 +2,13 @@ package com.github.ggeorgovassilis.webshop.service.impl;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +25,7 @@ import com.github.ggeorgovassilis.webshop.service.dao.AuthorDao;
 import com.github.ggeorgovassilis.webshop.service.dao.BookDao;
 import com.github.ggeorgovassilis.webshop.service.dao.PublisherDao;
 
-@Service
 @Controller
-@Transactional
-@Validated
 public class LibraryServiceImpl implements LibraryService {
 
 	@Resource
@@ -42,12 +41,12 @@ public class LibraryServiceImpl implements LibraryService {
 	}
 
 	@Override
-	public Author save(@Valid Author author) {
+	public Author save(Author author) {
 		return authorDao.saveAndFlush(author);
 	}
 
 	@Override
-	public Publisher save(@Valid Publisher publisher) {
+	public Publisher save(Publisher publisher) {
 		return publisherDao.saveAndFlush(publisher);
 	}
 
@@ -58,7 +57,8 @@ public class LibraryServiceImpl implements LibraryService {
 
 	@Override
 	public Book getBook(Long id) {
-		return bookDao.findOne(id);
+		Book b = bookDao.findOne(id);
+		return b;
 	}
 
 	@Override
@@ -82,6 +82,38 @@ public class LibraryServiceImpl implements LibraryService {
 			errors.getFieldErrors().put(fe.getField(), fe.getDefaultMessage());
 		}
 		return errors;
+	}
+
+	@Override
+	public void reset() {
+		bookDao.deleteAll();
+		authorDao.deleteAll();
+		publisherDao.deleteAll();
+	}
+	
+	@PostConstruct
+	@Transactional
+	public void init(){
+		Author a = new Author();
+		a.setName("Test Author");
+		Publisher p = new Publisher();
+		p.setName("Test Publisher");
+		Book b = new Book();
+		b.getAuthors().add(save(a));
+		b.setPublisher(save(p));
+		b.setTitle("Test Title");
+		b.setPublicationYear(2014);
+		save(b);
+	}
+
+	@Override
+	public Author getAuthor(Long id) {
+		return authorDao.findOne(id);
+	}
+
+	@Override
+	public Publisher getPublisher(Long id) {
+		return publisherDao.findOne(id);
 	}
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context docBase="webshop-webapp" path="/" crossContext="true" reloadable="true" source="org.eclipse.jst.jee.server:webshop-webapp">
 
+<!-- 
 <Resource name="jdbc/webshop-datasource"
          auth="Container"
          type="javax.sql.DataSource"
@@ -13,7 +14,7 @@
          maxActive="10"
          maxIdle="10"
          maxWait="-1"/>
-
+ -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
 
 </Context>

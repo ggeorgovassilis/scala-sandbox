@@ -19,17 +19,20 @@
 	    ">
 
 	<context:annotation-config />
+	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.controller" />
+
 	<bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 		<property name="detectHandlerMethodsInAncestorContexts"
 			value="true" />
 	</bean>
+	<!-- 
 	<mvc:annotation-driven />
+	 -->
 	<context:property-placeholder
 		location="classpath:webshop/configuration.properties" />
 	<mvc:resources mapping="/static/**" location="/static/" />
 
-	<bean id="MappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

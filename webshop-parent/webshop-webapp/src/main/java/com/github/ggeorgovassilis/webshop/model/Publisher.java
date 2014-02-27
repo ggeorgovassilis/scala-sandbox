@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -13,11 +14,12 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Publisher implements Serializable {
 
 	@Id
-	@NotNull
+	@GeneratedValue
 	protected Long id;
 
 	@Column
 	@NotBlank
+	@Size(min=1, max=100)
 	protected String name;
 
 	public Long getId() {
