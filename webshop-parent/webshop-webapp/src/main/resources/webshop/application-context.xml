@@ -24,11 +24,10 @@
 	<context:annotation-config />
 	<aop:aspectj-autoproxy/>
 	<context:property-placeholder
-		location="classpath:webshop/configuration.properties, classpath:customization/customization.properties"
+		location="classpath:webshop/configuration.properties"
 		system-properties-mode="FALLBACK" />
-	<tx:annotation-driven />
+	<tx:annotation-driven order="2"/>
 	<data:repositories base-package="com.github.ggeorgovassilis.webshop.service.dao" />
-	<mvc:annotation-driven />
 	<context:component-scan base-package="com.github.ggeorgovassilis.webshop.service" />
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -46,36 +45,11 @@
 		<property name="persistenceUnitName" value="com.github.ggeorgovassilis.webshop" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-
 	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-	</bean>
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 	<bean
 		class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+		<property name="order" value="1"/>
 	</bean>
 
-	<mvc:annotation-driven />
-
-	<security:http auto-config="true">
-		<security:intercept-url pattern="/api/herd/*"
-			access="ROLE_ADMIN" />
-	</security:http>
-
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="${adminName}" password="${adminPassword}"
-					authorities="ROLE_ADMIN" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager>
-
-	<bean id="customizableTraceInterceptor"
-		class="com.github.ggeorgovassilis.webshop.logging.AuditLogger">
-		<property name="enterMessage" value="Called $[methodName]($[arguments])" />
-	</bean>
-	<aop:config>
-		<aop:advisor advice-ref="customizableTraceInterceptor"
-			pointcut="execution(public * com.github.ggeorgovassilis.webshop.service.SupplierService.*(..))" />
-	</aop:config>
 </beans>

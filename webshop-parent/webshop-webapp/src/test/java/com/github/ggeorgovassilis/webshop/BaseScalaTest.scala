@@ -10,10 +10,10 @@ import org.springframework.test.context.TestContextManager
 import org.scalatest.BeforeAndAfter
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.beans.factory.annotation.Autowired
-import com.github.ggeorgovassilis.webshop.service.SupplierService
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
 import javax.servlet.ServletContext
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import com.github.ggeorgovassilis.webshop.service.LibraryService
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @ContextConfiguration(
@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 @TransactionConfiguration(defaultRollback = true)
 abstract class BaseScalaTest extends FlatSpec with GivenWhenThen with ShouldMatchers with BeforeAndAfter {
 
-  @Autowired var service: SupplierService = null
+  @Autowired var service: LibraryService = null
   
   new TestContextManager(this.getClass()).prepareTestInstance(this)
 

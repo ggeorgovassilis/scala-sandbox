@@ -1,19 +1,14 @@
-package com.github.ggeorgovassilis.webshop.dto;
+package com.github.ggeorgovassilis.webshop.model;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * Models validation errors
- * 
- * @author george georgovassilis
- * 
- */
+
 public class ValidationErrorsDTO implements Serializable {
 
-	private Map<String, String> fieldErrors = new HashMap<>();
+	protected Map<String, String> fieldErrors = new HashMap<>();
 
 	public Map<String, String> getFieldErrors() {
 		return fieldErrors;
@@ -22,4 +17,5 @@ public class ValidationErrorsDTO implements Serializable {
 	public void setFieldErrors(Map<String, String> fieldErrors) {
 		this.fieldErrors = fieldErrors;
 	}
+
 }
