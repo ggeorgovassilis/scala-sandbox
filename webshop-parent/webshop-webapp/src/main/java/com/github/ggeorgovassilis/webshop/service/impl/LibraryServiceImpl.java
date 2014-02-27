@@ -6,14 +6,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.github.ggeorgovassilis.webshop.model.Author;
@@ -52,7 +49,7 @@ public class LibraryServiceImpl implements LibraryService {
 
 	@Override
 	public List<Book> findBooks() {
-		return bookDao.findAll();
+		return bookDao.findAllOrdered();
 	}
 
 	@Override

@@ -8,8 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -25,7 +25,7 @@ public class Book implements Serializable {
 	protected Long id;
 	
 	@Column
-//	@Pattern(regexp="ISBN(-1(?:(0)|3))?:?\\x20+(?(1)(?(2)(?:(?=.{13}$)\\d{1,5}([ -])\\d{1,7}\\3\\d{1,6}\\3(?:\\d|x)$)|(?:(?=.{17}$)97(?:8|9)([ -])\\d{1,5}\\4\\d{1,7}\\4\\d{1,6}\\4\\d$))|(?(.{13}$)(?:\\d{1,5}([ -])\\d{1,7}\\5\\d{1,6}\\5(?:\\d|x)$)|(?:(?=.{17}$)97(?:8|9)([ -])\\d{1,5}\\6\\d{1,7}\\6\\d{1,6}\\6\\d$)))")
+	@Pattern(message="not a valid ISBN", regexp="^(?:ISBN(?:-1[03])?:??)?(?=[-0-9?]{17}$|[-0-9X?]{13}$|[0-9X]{10}$)?(?:97[89][-?]?)?[0-9]{1,5}[-?]?(?:[0-9]+[-?]?){2}[0-9X]$")
 	protected String isbn;
 
 	@Column
@@ -33,7 +33,7 @@ public class Book implements Serializable {
 	@Size(min=1, max=100)
 	protected String title;
 	
-	@OneToMany
+	@ManyToMany
 	@NotNull
 	@NotEmpty
 	protected Set<Author> authors = new HashSet<>();
