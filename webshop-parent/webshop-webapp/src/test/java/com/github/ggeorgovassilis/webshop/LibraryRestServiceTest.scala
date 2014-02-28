@@ -16,6 +16,8 @@ import com.github.ggeorgovassilis.webshop.model.ValidationErrorsDTO
 import com.github.ggeorgovassilis.webshop.model.Publisher
 import com.github.ggeorgovassilis.webshop.model.Book
 import com.fasterxml.jackson.core.`type`.TypeReference
+import org.junit.Test
+import com.github.ggeorgovassilis.webshop.support.BaseScalaWebserviceTest
 
 class LibraryRestServiceTest extends BaseScalaWebserviceTest {
 

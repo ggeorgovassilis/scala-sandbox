@@ -1,4 +1,4 @@
-package com.github.ggeorgovassilis.webshop
+package com.github.ggeorgovassilis.webshop.support
 
 import com.github.ggeorgovassilis.webshop.model.ValidationErrorsDTO
 
