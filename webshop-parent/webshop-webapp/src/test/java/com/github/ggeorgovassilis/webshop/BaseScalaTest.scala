@@ -15,15 +15,9 @@ import javax.servlet.ServletContext
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import com.github.ggeorgovassilis.webshop.service.LibraryService
 
-@RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(
-  locations = Array("classpath:webshop/application-context.xml", "classpath:webshop/standalone-environment-context.xml"))
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
 abstract class BaseScalaTest extends FlatSpec with GivenWhenThen with ShouldMatchers with BeforeAndAfter {
 
-  @Autowired var service: LibraryService = null
   
-  new TestContextManager(this.getClass()).prepareTestInstance(this)
+  //new TestContextManager(this.getClass()).prepareTestInstance(this)
 
 }
