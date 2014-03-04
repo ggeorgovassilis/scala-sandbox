@@ -14,6 +14,15 @@
 		<property name="username" value="SA" />
 		<property name="password" value="" />
 	</bean>
+<!-- 
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy"/>
+		<property name="url" value="jdbc:log4jdbc:hsqldb:mem:webshop" />
+		<property name="username" value="SA" />
+		<property name="password" value="" />
+	</bean>
+	 -->
 	<!-- <jee:jndi-lookup id="dataSource" jndi-name="jdbc/webshop-datasource" 
 		expected-type="javax.sql.DataSource" /> -->
 </beans>

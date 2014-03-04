@@ -1,6 +1,7 @@
 package com.github.ggeorgovassilis.webshop.service.impl;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.github.ggeorgovassilis.webshop.model.Author;
 import com.github.ggeorgovassilis.webshop.model.Book;
+import com.github.ggeorgovassilis.webshop.model.LoanedBook;
 import com.github.ggeorgovassilis.webshop.model.NotFoundException;
 import com.github.ggeorgovassilis.webshop.model.Publisher;
 import com.github.ggeorgovassilis.webshop.model.ValidationErrorsDTO;
 import com.github.ggeorgovassilis.webshop.service.LibraryService;
 import com.github.ggeorgovassilis.webshop.service.dao.AuthorDao;
 import com.github.ggeorgovassilis.webshop.service.dao.BookDao;
+import com.github.ggeorgovassilis.webshop.service.dao.LoanDao;
 import com.github.ggeorgovassilis.webshop.service.dao.PublisherDao;
 
 @Controller
@@ -35,7 +38,9 @@ public class LibraryServiceImpl implements LibraryService {
 	protected AuthorDao authorDao;
 	@Resource
 	protected PublisherDao publisherDao;
-
+	@Resource
+	protected LoanDao loanDao;
+	
 	protected void notFound(String message) throws NotFoundException{
 		throw new NotFoundException(message);
 	}
@@ -50,6 +55,7 @@ public class LibraryServiceImpl implements LibraryService {
 	
 	@Override
 	public void reset() {
+		loanDao.deleteAll();
 		bookDao.deleteAll();
 		authorDao.deleteAll();
 		publisherDao.deleteAll();
@@ -98,45 +104,20 @@ public class LibraryServiceImpl implements LibraryService {
 		Page<Book> result = bookDao.findBySimilarTitle(query, new PageRequest(page, 10));
 		return ifNotFound(result.getContent(),"No books found that match this query");
 	}
-
-	@PostConstruct
-	@Transactional
-	public void init(){
-		Author a = new Author();
-		a.setName("Test Author");
-		a = save(a);
-		
-		Publisher p = new Publisher();
-		p.setName("Test Publisher");
-		p = save(p);
-		
-		Author a2 = new Author();
-		a2.setName("Test Author 2");
-		a2 = save(a2);
-
-		Book b = new Book();
-		b.getAuthors().add(a);
-		b.setPublisher(p);
-		b.setTitle("Test Title 1");
-		b.setPublicationYear(2014);
-		save(b);
-
-		b = new Book();
-		b.getAuthors().add(a);
-		b.getAuthors().add(a2);
-		b.setPublisher(p);
-		b.setTitle("Test Title 2");
-		b.setPublicationYear(1988);
-		save(b);
-		
-		for (int i=2;i<100;i++){
-			b = new Book();
-			b.getAuthors().add(a);
-			b.setTitle("book "+i);
-			b.setPublisher(p);
-			b.setPublicationYear(1900+i);
-			save(b);
-		}
+	
+	
+	@Override
+	public LoanedBook borrowBook(Long bookId, String clientName) {
+		Book book = bookDao.findOne(bookId);
+		ifNotFound(book, "This book doesn't exist");
+		ifNotFound(book.getAvailability()<1?null:book, "This book isn't in stock right now");
+		LoanedBook loan = new LoanedBook();
+		loan.setBook(book);
+		loan.setDateLoaned(new Date());
+		loan.setClientName(clientName);
+		book.setAvailability(book.getAvailability()-1);
+		bookDao.saveAndFlush(book);
+		return loanDao.saveAndFlush(loan);
 	}
 
 	@Override

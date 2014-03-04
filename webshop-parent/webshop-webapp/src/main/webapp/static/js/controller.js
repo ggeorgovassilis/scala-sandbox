@@ -47,7 +47,7 @@ function($scope, $http, $location, $routeParams){
 	$scope.parseInt = parseInt;
 	this.validate = function validate(book) {
 		if (!book.query || book.query == ""){
-			return {query:"Please enter the order number"};
+			return {query:"Please enter a search term"};
 		};
 	};
 

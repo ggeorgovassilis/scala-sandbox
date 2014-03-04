@@ -1,6 +1,7 @@
 package com.github.ggeorgovassilis.webshop.support
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.core.`type`.TypeReference
+import scala.collection.JavaConversions._
 import org.springframework.mock.web.MockServletConfig
 import org.springframework.web.servlet.DispatcherServlet
 import org.springframework.mock.web.MockHttpServletRequest
@@ -10,10 +11,12 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.github.ggeorgovassilis.webshop.model.ValidationErrorsDTO
 import org.springframework.http.HttpStatus
+import org.apache.log4j.Logger
 
 abstract class BaseScalaWebserviceTest extends BaseScalaTest {
 
   val mapper = new ObjectMapper()
+  val logger = Logger.getLogger(getClass())
   var dispatcherServlet: DispatcherServlet = null
   
   val STATUS_OK = HttpStatus.OK.value();
@@ -47,11 +50,14 @@ abstract class BaseScalaWebserviceTest extends BaseScalaTest {
     dispatcherServlet.service(request, response);
   }
 
-  def post[T >: Null](url: String, obj: T): InvocationResult[T] = {
+  def post[T >: Null](url: String, obj: T, postData:Boolean = true, parameters:Map[String,String] = Map()): InvocationResult[T] = {
     val request = new MockHttpServletRequest(dispatcherServlet.getServletContext(), "POST", url);
-    val content = toJson(obj)
-    request.setContent(content)
-    request.setContentType("application/json");
+    if (postData){
+    	val content = toJson(obj)
+    	request.setContentType("application/json");
+    	request.setContent(content)
+    }
+    request.setParameters(parameters);
     val response = new MockHttpServletResponse();
     invoke(request, response);
     val returnedObject = fromJson(response, obj.getClass)

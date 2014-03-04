@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.github.ggeorgovassilis.webshop.model.Author;
 import com.github.ggeorgovassilis.webshop.model.Book;
+import com.github.ggeorgovassilis.webshop.model.LoanedBook;
 import com.github.ggeorgovassilis.webshop.model.NotFoundException;
 import com.github.ggeorgovassilis.webshop.model.Publisher;
 import com.github.ggeorgovassilis.webshop.model.ValidationErrorsDTO;
@@ -57,6 +59,11 @@ public interface LibraryService {
 	@RequestMapping(value = "/books", method = RequestMethod.POST)
 	@Valid @ResponseBody Book save(@Valid @RequestBody Book book);
 
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "/borrow/{bookId}", method = RequestMethod.POST)
+	@Valid @ResponseBody LoanedBook borrowBook(@NotNull @PathVariable("bookId") Long bookId, @NotEmpty @RequestParam(value="clientName") String clientName);
+	
+	
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)
 	void reset();
 
