@@ -4,17 +4,14 @@ Simulates a library management system
 
 ## Functional specs
 
-CRUD and search over Authors, Publishers and Books
-Input should be validated
+### Search for books
+Allows anonymously searching for books by various criteria. Currently only a like % type search on book titles is implemented. Allows for pagination and bookmarking of results
 
+### Inspect books
+Allows anonymous viewing of book details
 
-## Web service usage
+### Library management
+Stores various properties for books such as title, ISBN, authors, availability and publishers. Access to management functions is available only to logged in users.
 
-TBD
-
-
-## Assumptions / Known issues
-  
-## Installation
-
-Optionally 
+### Borrowing
+Borrowing books is possibly by providing a name and a date

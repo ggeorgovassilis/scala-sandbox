@@ -20,6 +20,10 @@ webshopApp.config(function($routeProvider){
 		templateUrl : 'templates/main-page.html',
 		controller : 'SearchBookController'
 	}).
+	when('/borrow/:id', {
+		templateUrl : 'templates/borrow-page.html',
+		controller : 'BorrowBookController'
+	}).
 	otherwise({
         redirectTo : '/'
     });
@@ -87,3 +91,43 @@ function($scope, $http, $location, $routeParams){
 		book.showPage($routeParams.query, $routeParams.page);
 	}
 }]);
+
+webshopApp.controller("BorrowBookController",["$scope","$http","$location","$routeParams",
+     function($scope, $http, $location, $routeParams){
+     	var order = this;
+     	order.id = $routeParams.id;
+     	$scope.parseInt = parseInt;
+     	this.validate = function validate(order) {
+     		if (!order.clientName){
+     			return {clientName:"Please enter the name of the person who is borrowing the book"};
+     		};
+     	};
+     	
+     	this.loadBook = function(id){
+     		$http({method: 'GET', url: 'api/books/'+id}).
+     		success(function(data, status, headers, config) {
+     			order.book = data;
+     		}).
+     		error(function(data, status, headers, config) {
+     			order.errors = data;
+     		});	
+     	};
+
+ 		
+     	this.submit = function(){
+     		order.errors = order.validate(order);
+     		if (order.errors)
+     			return;
+     		var params = $.param({clientName: order.clientName});
+     		$http({method: 'POST', url: 'api/borrow/'+order.id, data:params, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).
+     		success(function(data, status, headers, config) {
+     			order = data;
+     		}).
+     		error(function(data, status, headers, config) {
+     			order.errors = data;
+     		});	
+     	};
+     	
+    	this.loadBook(order.id);
+    }]);
+

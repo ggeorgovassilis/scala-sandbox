@@ -13,10 +13,9 @@
 <span ng-show="book.results">Page {{parseInt(book.page)+1}}</span>
 </td>
 <td>
-<button class="btn btn-default" ng-click="book.previousPage()" ng-disabled="parseInt(book.page)<1" >Previous</button>
-</td>
-<td>
-<button class="btn btn-default" ng-click="book.nextPage()" ng-disabled="book.results.length<book.pageSize">Next</button>
+<a href="#/search/{{book.query}}/{{parseInt(book.page)-1}}" ng-hide="parseInt(book.page)&lt;1">Previous</a>
+&nbsp;
+<a href="#/search/{{book.query}}/{{parseInt(book.page)+1}}" ng-hide="book.results.length<book.pageSize">Next</a>
 </td>
 </tr>
 </table>
@@ -29,9 +28,9 @@
 <tr><td colspan=2><h3>{{book.title}}</h3></td></tr>
 <tr><td colspan=2>{{book.publisher.name}}</td></tr>
 <tr><td class="firstCell"><label>ISBN</label></td><td>{{book.isbn}}</td></tr>
-<tr><td><label>Author(s)</label></td><td><span ng-repeat="author in book.authors"><author>{{author.name}}</author></td></tr>
+<tr><td><label>Author(s)</label></td><td><author ng-repeat="author in book.authors">{{author.name}}</author></td></tr>
 <tr><td><label>Publication year</label></td><td>{{book.publicationYear}}</td></tr>
-<tr><td><label>Availability</label></td><td>{{book.availability?"Available":"Not available"}}</td></tr>
+<tr><td><label>Availability</label></td><td>{{book.availability?"":"Not available"}} <a ng-show="book.availability" href="#/borrow/{{book.id}}">Available for borrowing</a></td></tr>
 </table>
 </div>
 </div>
