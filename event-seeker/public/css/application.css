@@ -1,0 +1,178 @@
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+body{
+	padding:1em;
+}
+
+button.btn{
+	margin-right:2em;	
+}
+
+.error{
+	color:maroon;
+	font-weight:bold;
+	margin-top:0.5em;
+	margin-bottom:0.5em;
+}
+
+.icon-arrow-left:before{
+	display:block;
+	content:"<"
+}
+.icon-arrow-right:before{
+	display:block;
+	content:">"
+}
+
+.pagenumber{
+	display:block;
+	width:100px;
+	float:left;
+}
+
+.firstCell{
+	width:10%;
+	min-width:10em;
+}
+
+h1{
+	font-family:sans-serif;
+	border-bottom:solid silver 1px;
+	padding-bottom:0.5em;
+}
+
+a.option{
+	display:block;
+	background-color: white;
+	border:solid black 1px;
+	font-family:sans-serif;
+	text-decoration:none;
+	padding:1em;
+	margin:1em;
+	text-align: center;
+	color:black;
+}
+
+a.option:VISITED {
+	color:black;
+}
+
+a.option:hover{
+	background-color:silver;
+}
+
+.nav-tabs .active{
+	background-color: white;
+}
+
+.main-view{
+	border:solid silver 1px;
+	padding:0.5em;
+}
+
+.nav-tabs a{
+	background-color:whitesmoke !important;
+}
+.nav-tabs .active a{
+	background-color:white !important;
+}
+
+.btn-ok{
+	border:solid 1px #E5E5E5;
+}
+
+.int-header {
+    background-repeat: no-repeat;
+    color: navy;
+    font-family: serif;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+.result-list{
+}
+
+.event{
+	margin-bottom:2em;
+	padding:0.5em;
+	background-color:white;
+	border:solid silver 1px;
+	border-radius:2px 2px;
+	width:100%;
+}
+
+.event td{
+	padding:0.5em 0 0 0.5em
+}
+
+.event td.tlabel{
+	background-color:floralwhite;
+}
+
+.topic{
+	background-color:olive;
+	border-radius:2px 2px;	
+}
+
+.event-type{
+	width:7em;
+	font-weight:bold;
+	margin-right:0.5em;
+	vertical-align:top;
+}
+
+.music{
+	background-color:palevioletred;
+	color:white
+}
+
+.conference{
+	background-color:mediumseagreen;
+	color:white
+}
+
+.sports{
+	background-color:lightblue;
+	color:white
+}
+
+.datepicker .btn{
+	background-color:white;
+	border:solid silver 1px;
+	border-radius:2px;
+} 
+
+.eventType-panel{
+	border:solid silver 1px;
+	padding:0;
+}
+
+.eventType-header{
+	font-weight:bold;
+	padding:0.5em;
+}
+
+.event-categories{
+	overflow:hidden;
+	padding:0.5em;
+}
+
+.event-category{
+	border:solid silver 1px;
+	padding:0.5em;
+	float:left;
+	border-radius:2px 2px;	
+	box-shadow:gray 0.3em 0.3em 0.5em;
+	margin-right:1.5em;
+	cursor:pointer;
+}
+
+.event-category:hover{
+	background-color:#EEEEEE
+}
+
+.event-category.selected{
+	box-shadow:none;
+	background-color:#EEEEEE
+}

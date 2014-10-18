@@ -1,0 +1,19 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Index.index
+
+GET		/api/locations/:location	controllers.API.findLocations(location)
+GET		/api/events					controllers.API.findEvents(eventTypes:String, location:String, maxPrice:Long, date:String, orderBy:String)
+GET		/api/interests				controllers.API.findInterests()
+GET		/api/events/interests		controllers.API.findEventsByInterest(listOfInterests:String)
+
+POST	/api/events/concerts		controllers.API.importConcerts(url:String)
+POST	/api/events/conferences		controllers.API.importConferences(url:String)
+POST	/api/events/sports			controllers.API.importSports(url:String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+

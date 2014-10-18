@@ -1,0 +1,132 @@
+[
+{
+    "type"	  : "music",
+    "title"   : "The Wall Live",
+    "performers" : [ "Roger Waters" ],
+    "city"    : "Amsterdam",
+    "categories"  : [ "progressive rock", "art rock" ],
+    "start"   : "2015-01-09T20:00",
+    "end"     : "2015-01-09T22:00",
+    "price"   : 55
+},
+{
+    "type"	  : "music",
+    "title"   : "Deep Purple Live",
+    "performers" : [ "Deep Purple" ],
+    "city"    : "Amsterdam",
+    "categories"  : [ "hard rock", "progressive rock", "psychedelic rock" ],
+    "start"   : "2015-01-09T21:00",
+    "end"     : "2015-01-09T23:00",
+    "price"   : 40
+},
+{
+    "type"	  : "music",
+    "title"   : "Queens of the Stone Age Live",
+    "performers" : [ "Queens of the Stone Age" ],
+    "city"    : "Rome",
+    "categories"  : [ "hard rock" ],
+    "start"   : "2014-11-09T20:00",
+    "end"     : "2014-11-09T22:00",
+    "price"   : 35
+},
+{
+    "type"	  : "music",
+    "title"   : "Alter Bridge Live",
+    "performers" : [ "Alter Bridge" ],
+    "city"    : "Amsterdam",
+    "categories"  : [ "hard rock", "post grunge", "heavy metal" ],
+    "start"   : "2015-01-09T16:00",
+    "end"     : "2015-01-09T19:00",
+    "price"   : 60
+},
+{
+    "type"	  : "music",
+    "title"   : "Dream Theater Live",
+    "performers" : [ "Dream Theater" ],
+    "city"    : "Rome",
+    "categories"  : [ "progressive rock", "progressive metal" ],
+    "start"   : "2014-11-03T20:00",
+    "end"     : "2014-11-03T22:00",
+    "price"   : 70
+},
+{
+    "type"	  : "music",
+    "title"   : "Ennio Morricone Live",
+    "performers" : [ "Ennio Morricone" ],
+    "city"    : "Rome",
+    "categories"  : [ "classical" ],
+    "start"   : "2014-11-16T20:00",
+    "end"     : "2014-11-16T22:00",
+    "price"   : 60
+},
+{
+    "type"	  : "music",
+    "title"   : "Ryuichi Sakamoto Live",
+    "performers" : [ "Ryuichi Sakamoto" ],
+    "city"    : "Berlin",
+    "categories"  : [ "classical" ],
+    "start"   : "2014-11-17T20:00",
+    "end"     : "2014-11-17T22:00",
+    "price"   : 40
+},
+{
+    "type"	  : "music",
+    "title"   : "Serj Tankian Live",
+    "performers" : [ "Serj Tankian" ],
+    "city"    : "Berlin",
+    "categories"  : [ "alternative rock", "progressive rock" ],
+    "start"   : "2015-06-12T20:00",
+    "end"     : "2015-06-12T22:00",
+    "price"   : 30
+},
+{
+    "type"	  : "music",
+    "title"   : "Radiohead Live",
+    "performers" : [ "Radiohead" ],
+    "city"    : "Rome",
+    "categories"  : [ "alternative rock", "progressive rock" ],
+    "start"   : "2014-11-23T20:00",
+    "end"     : "2014-11-23T22:00",
+    "price"   : 50
+},
+{
+    "type"	  : "music",
+    "title"   : "Lady Gaga Live",
+    "performers" : [ "Lady Gaga" ],
+    "city"    : "Berlin",
+    "categories"  : [ "pop", "dance" ],
+    "start"   : "2014-10-24T20:00",
+    "end"     : "2014-10-24T22:00",
+    "price"   : 40
+},
+{
+    "type"	  : "music",
+    "title"   : "Madonna Live",
+    "performers" : [ "Madonna" ],
+    "city"    : "Amsterdam",
+    "categories"  : [ "pop", "dance" ],
+    "start"   : "2014-11-24T17:00",
+    "end"     : "2014-11-24T19:30",
+    "price"   : 70
+},
+{
+    "type"	  : "music",
+    "title"   : "Ska-P Live",
+    "performers" : [ "Ska-P" ],
+    "city"    : "Berlin",
+    "categories"  : [ "ska" ],
+    "start"   : "2015-06-12T20:00",
+    "end"     : "2015-06-12T22:00",
+    "price"   : 25
+},
+{
+    "type"	  : "music",
+    "title"   : "Muse Live",
+    "performers" : [ "Muse" ],
+    "city"    : "Rome",
+    "categories"  : [ "alternative rock" ],
+    "start"   : "2014-11-27T20:00",
+    "end"     : "2014-11-27T22:00",
+    "price"   : 45
+}
+]

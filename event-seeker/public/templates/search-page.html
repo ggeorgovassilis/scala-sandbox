@@ -1,0 +1,56 @@
+<form name="searchForm" ng-controller="SearchController as controller">
+<div ng-show="controller.formFields.location">
+<label>Location</label>
+<input 
+	type="text" 
+	id="location"
+	ng-model="controller.location" 
+	placeholder="Search for a location" 
+	typeahead="address for address in getLocation($viewValue)"
+	typeahead-loading="loadingLocations"
+	class="form-control"
+/>
+</div>
+<div ng-show="controller.formFields.price">
+<label>Price</label>
+<input 
+	ng-model="controller.price" 
+	placeholder="Maximum price" 
+	type="number"
+	min="0"
+	class="form-control"/>
+</div>
+<div ng-show="controller.formFields.date">
+<br/>
+<label>Event date</label>&nbsp;<button ng-click="controller.date=null">Clear</button><br/>
+<div style="display:inline-block; min-height:290px;">
+        <datepicker ng-model="controller.date" show-weeks="false" class="well well-sm datepicker" ng-change="controller.onSearchButtonClicked()"></datepicker>
+</div>
+</div>
+<div ng-show="controller.formFields.interests">
+<label>Interests</label>
+<div class="eventType-panel" ng-repeat="eventType in controller.availableEventTypes">
+<div class="eventType-header {{eventType}}">{{eventType}}</div>
+<div class="event-categories">
+	<div class="event-category {{interest.selected?'selected':''}}" ng-repeat="interest in controller.availableInterests | filter:{eventType:eventType}" ng-click="controller.onInterestButtonClicked(interest)">
+		{{interest.category}}
+	</div>
+</div>
+</div>
+</div>
+<br/>
+<button id="search-button" class="btn btn-primary" ng-click="controller.onSearchButtonClicked()" ng-disabled="controller.working" ng-show="controller.formFields.search">Search</button>
+<div class=error>{{controller.errors.message}}</div>
+<br/>
+<div ng-show="controller.results" class="result-list">
+<label>We found these events</label>
+<hr/>
+<table ng-repeat="event in controller.results" class=event>
+<tr><td rowspan=2 width="5em" class="event-type {{event.eventType}}">{{event.eventType}}</td><td class=title>{{event.title}} - {{event.city}}</td></tr>
+<tr><td><span class=categories ng-repeat="category in event.categories">{{category}}<span ng-show="!$last">, </span></span></td></tr>
+<tr><td class=tlabel><label>With</label></td><td><span class=performer ng-repeat="performer in event.performers">{{performer}}<span ng-show="!$last">, </span></span></td></tr>
+<tr><td class=tlabel><label>Dates</label></td><td>{{event.start | date:'dd/MM/yyyy HH:mm'}} -  {{event.end | date:'dd/MM/yyyy HH:mm'}}</td></tr>
+<tr><td class=tlabel><label>Price</label></td><td>{{event.price}}</td></tr>
+</table>
+</div>
+</form>

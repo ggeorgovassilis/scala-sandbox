@@ -1,0 +1,101 @@
+[
+{
+    "title"    : "Conference 1",
+    "speakers" : [ "Speaker 1" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 1" ],
+    "start"    : "2013-06-12T09:00",
+    "end"      : "2013-06-12T11:00",
+    "price"    : 50
+},
+{
+    "title"    : "Conference 2",
+    "speakers" : [ "Speaker 2" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 1", "topic 13", "topic 14" ],
+    "start"    : "2013-06-12T10:00",
+    "end"      : "2013-06-12T12:00",
+    "price"    : 40
+},
+{
+    "title"    : "Conference 3",
+    "speakers" : [ "Speaker 3" ],
+    "city"     : "City 2",
+    "topics"   : [ "topic 4", "topic 12" ],
+    "start"    : "2012-10-24T13:00",
+    "end"      : "2012-10-24T15:00",
+    "price"    : 60
+},
+{
+    "title"    : "Conference 4",
+    "speakers" : [ "Speaker 4" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 4", "topic 12" ],
+    "start"    : "2013-06-13T15:00",
+    "end"      : "2013-06-13T16:00",
+    "price"    : 50
+},
+{
+    "title"    : "Conference 5",
+    "speakers" : [ "Speaker 5" ],
+    "city"     : "City 2",
+    "topics"   : [ "topic 1", "topic 9", "fp" ],
+    "start"    : "2012-12-12T09:00",
+    "end"      : "2012-12-12T15:00",
+    "price"    : 80
+},
+{
+    "title"    : "Conference 6",
+    "speakers" : [ "Speaker 6", "Speaker 7" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 1", "topic 9", "topic 11" ],
+    "start"    : "2012-12-12T18:00",
+    "end"      : "2012-12-12T21:00",
+    "price"    : 30
+},
+{
+    "title"    : "Conference 7",
+    "speakers" : [ "Speaker 8" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 1", "topic 7", "topic 9", "topic 10" ],
+    "start"    : "2012-12-20T09:00",
+    "end"      : "2012-12-20T15:00",
+    "price"    : 80
+},
+{
+    "title"    : "Conference 8",
+    "speakers" : [ "Speaker 9" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 1", "topic 6" ],
+    "start"    : "2012-12-22T09:00",
+    "end"      : "2012-12-22T15:00",
+    "price"    : 50
+},
+{
+    "title"    : "Conference 9",
+    "speakers" : [ "Speaker 10" ],
+    "city"     : "City 2",
+    "topics"   : [ "topic 1", "topic 4", "topic 3" ],
+    "start"    : "2012-12-15T09:00",
+    "end"      : "2012-12-15T18:00",
+    "price"    : 200
+},
+{
+    "title"    : "Conference 10",
+    "speakers" : [ "Speaker 11" ],
+    "city"     : "City 2",
+    "topics"   : [ "topic 1", "topic 2", "topic 3" ],
+    "start"    : "2012-12-15T09:00",
+    "end"      : "2012-12-15T18:00",
+    "price"    : 200
+},
+{
+    "title"    : "Conference 11",
+    "speakers" : [ "Speaker 12" ],
+    "city"     : "City 1",
+    "topics"   : [ "topic 4", "topic 5" ],
+    "start"    : "2012-11-10T09:00",
+    "end"      : "2012-11-10T11:00",
+    "price"    : 30
+}
+]

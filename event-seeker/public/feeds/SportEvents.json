@@ -1,0 +1,92 @@
+[
+{
+    "title" : "AFC Ajax vs PSV Eindhoven",
+    "teams" : [ "AFC Ajax", "PSV Eindhoven" ],
+    "city"  : "Amsterdam",
+    "sport" : "football",
+    "start" : "2015-02-15T19:00",
+    "end"   : "2015-02-15T20:30",
+    "price" : 25
+},
+{
+    "title" : "Feyenoord vs Celtic FC",
+    "teams" : [ "Feyenoord", "Celtic FC" ],
+    "city"  : "Amsterdam",
+    "sport" : "football",
+    "start" : "2015-02-15T17:30",
+    "end"   : "2015-02-15T19:30",
+    "price" : 30
+},
+{
+    "title" : "AS Roma vs SS Lazio",
+    "teams" : [ "AS Roma", "SS Lazio" ],
+    "city"  : "Rome",
+    "sport" : "football",
+    "start" : "2015-02-15T09:00",
+    "end"   : "2015-02-15T11:30",
+    "price" : 35
+},
+{
+    "title" : "AS Roma vs AFC Ajax",
+    "teams" : [ "AS Roma", "AFC Ajax" ],
+    "city"  : "Rome",
+    "sport" : "football",
+    "start" : "2015-01-14T19:00",
+    "end"   : "2015-01-14T20:30",
+    "price" : 40
+},
+{
+    "title" : "Italy vs Netherlands",
+    "teams" : [ "Italy", "Netherlands" ],
+    "city"  : "Rome",
+    "sport" : "volleyball",
+    "start" : "2014-11-14T11:00",
+    "end"   : "2014-11-14T13:30",
+    "price" : 30
+},
+{
+    "title" : "Brazil vs Italy",
+    "teams" : [ "Italy", "Brazil" ],
+    "city"  : "Rio de Janeiro",
+    "sport" : "volleyball",
+    "start" : "2015-06-12T15:00",
+    "end"   : "2015-06-12T17:30",
+    "price" : 40
+},
+{
+    "title" : "Netherlands vs Brazil",
+    "teams" : [ "Netherlands", "Brazil" ],
+    "city"  : "Amsterdam",
+    "sport" : "volleyball",
+    "start" : "2015-02-15T09:00",
+    "end"   : "2015-02-15T11:30",
+    "price" : 35
+},
+{
+    "title" : "Brazil vs USA",
+    "teams" : [ "Brazil", "USA" ],
+    "city"  : "Rio de Janeiro",
+    "sport" : "volleyball",
+    "start" : "2014-10-25T12:00",
+    "end"   : "2014-10-25T15:30",
+    "price" : 45
+},
+{
+    "title" : "AFC Ajax vs Barcelona",
+    "teams" : [ "AFC Ajax", "Barcelona" ],
+    "city"  : "Rome",
+    "sport" : "football",
+    "start" : "2015-01-14T19:00",
+    "end"   : "2015-01-14T20:30",
+    "price" : 40
+},
+{
+    "title" : "Barcelona vs AS Roma",
+    "teams" : [ "Barcelona", "AS Roma" ],
+    "city"  : "Amsterdam",
+    "sport" : "football",
+    "start" : "2015-06-12T19:00",
+    "end"   : "2015-06-12T20:30",
+    "price" : 40
+}
+]

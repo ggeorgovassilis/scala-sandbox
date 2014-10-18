@@ -1,0 +1,45 @@
+@(message: String)
+<!doctype html>
+<html lang="en" xmlns:ng="http://angularjs.org" ng-app="app">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="assets/css/application.css">
+
+<script src="assets/libs/jquery-1.9.1.min.js"></script>
+<script src="assets/libs/jquery-ui-1.10.4.js"></script>
+
+<script src="assets/libs/angular-1.2.13.js"></script>
+<script src="assets/libs/angular-route-1.2.13.js"></script>
+<script src="assets/libs/bootstrap.3.1.1.min.js"></script>
+<script src="assets/libs/ui-bootstrap-tpls-0.11.0.js"></script>
+<script src="assets/libs/datepicker.js"></script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<script src="assets/js/tools.js"></script>
+<script src="assets/js/routing.js"></script>
+<script src="assets/js/main-controller.js"></script>
+<script src="assets/js/search-controller.js"></script>
+
+</head>
+<body ng-controller="MainPageController as controller">
+<div class=int-header>Search for events by...</div>
+<tabset justified="true">
+    <tab id="tab_location" heading="Location" select="controller.locationTabSelected()" active="controller.tabLocation"></tab>
+    <tab id="tab_date" heading="Date" select="controller.dateTabSelected()" active="controller.tabDate"></tab>
+    <tab id="tab_interests" heading="Interest" select="controller.interestTabSelected()" active="controller.tabInterests"></tab>
+    <tab id="tab_advanced" heading="Advanced search" select="controller.advancedTabSelected()" active="controller.tabAdcanced"></tab>
+</tabset>
+<div ng-view class=main-view>
+</div>
+</body>
+</html>
